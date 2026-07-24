@@ -547,6 +547,9 @@ EOF
       { cmd: `windapsearch.py -U --full --dc-ip {TARGET}`, category: 'ldapsearch' },
       { cmd: `windapsearch.py -d {DOMAIN} --dc-ip {TARGET} -U`, category: 'ldapsearch' },
       { cmd: `windapsearch.py -d {DOMAIN} --dc-ip {TARGET} --custom "objectClass=*"`, category: 'ldapsearch' },
+      { cmd: `ldapdomaindump -u '{DOMAIN}\\\\{USER}' -p '{PASS}' {TARGET}`, category: 'ldapsearch' },
+      { cmd: `uv tool install git+https://github.com/dirkjanm/adidnsdump.git`, category: 'ldapsearch' },
+      { cmd: `adidnsdump -u {DOMAIN}\\\\{USER} ldap://{PASS} -r`, category: 'ldapsearch' },
 
 
       // ===== lookupsid MODULE =====
