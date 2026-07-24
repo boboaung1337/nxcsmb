@@ -421,6 +421,7 @@ EOF
       { cmd: `bloodyad -d {DOMAIN} --host dc01.{DOMAIN} -i {TARGET} -u {USER} -p '{PASS}' get bloodhound`, category: 'bloodhound' },
       { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --zip`, category: 'bloodhound' },
       { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --ldaps --zip`, category: 'bloodhound' },
+      { cmd: `https://github.com/SpecterOps/SharpHound/`, category: 'bloodhound' },
       { cmd: `.\\SharpHound.exe -c All`, category: 'bloodhound' },
 
 
