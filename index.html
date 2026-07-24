@@ -552,6 +552,8 @@ EOF
       { cmd: `adidnsdump -u {DOMAIN}\\\\{USER} ldap://{PASS} -r`, category: 'ldapsearch' },
 
 
+
+
       // ===== lookupsid MODULE =====
       { cmd: `lookupsid.py {DOMAIN}/{USER}:'{PASS}'@{TARGET} | grep "Domain SID"`, category: 'lookupsid' },
       { cmd: `lookupsid.py {DOMAIN}/{USER}:'{PASS}'@{TARGET} -domain-sids`, category: 'lookupsid' },
@@ -560,7 +562,7 @@ EOF
       { cmd: `lookupsid.py anonymous@{DOMAIN} -no-pass`, category: 'lookupsid' },
       { cmd: `lookupsid.py guest@{DOMAIN} -no-pass`, category: 'lookupsid' },
       { cmd: `lookupsid.py {USER}@{TARGET} -no-pass`, category: 'lookupsid' },
-      { cmd: `lookupsid.py {USER}@{TARGET} 10000 -no-pass | grep -oP 'rebound\\\K\w+' | sed '/^$/d' > users.txt`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {USER}@{TARGET} 10000 -no-pass | grep -oP 'rebound\\\\\\K\\w+' | sed '/^$/d' > users.txt`, category: 'lookupsid' },
       { cmd: `lookupsid.py -no-pass 'guest@{DOMAIN}' 8000 | grep SidTypeUser | cut -d' ' -f2 | cut -d '\' -f2 | tee users.txt`, category: 'lookupsid' },
       { cmd: `lookupsid.py {DOMAIN}/{USER}@{TARGET} -hashes :3d3a72af94548ebc7755287a88476460`, category: 'lookupsid' },
 
