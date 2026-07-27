@@ -492,6 +492,7 @@ EOF
       { cmd: `# with kerberos ticket`, category: 'bloodhound' },
       { cmd: `sudo nxc smb {TARGET} --generate-hosts-file /etc/hosts --append`, category: 'bloodhound' },
       { cmd: `sudo nxc smb {TARGET} --generate-krb5-file /etc/krb5.conf --append`, category: 'bloodhound' },
+      { cmd: `# Must use capital letter for domain name`, category: 'bloodhound' },
       { cmd: `echo '{PASS}' | kinit {USER}@{DOMAIN}`, category: 'bloodhound' },
       { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --generate-tgt cache`, category: 'bloodhound' },
       { cmd: `export KRB5CCNAME=cache.ccache`, category: 'bloodhound' },
