@@ -163,8 +163,11 @@
   (function(){
     const CMD_DATA = [
       // ===== NMAP MODULE =====
+      { cmd: `sudo updatedb`, category: 'nmap' },
       { cmd: 'fping -asgq {TARGET}/24', category: 'nmap' },
       { cmd: 'nmap -sn {TARGET}/24', category: 'nmap' },
+      { cmd: `nmap -p 88 --open {TARGET}/24`, category: 'nmap' },
+      { cmd: 'nmap -sU -p 53 --open {TARGET}/24  ', category: 'nmap' },
       { cmd: 'nxc smb {TARGET}/24', category: 'nmap' },
       { cmd: `echo '{TARGET}' > dcip `, category: 'nmap' },
       { 
@@ -181,8 +184,7 @@ EOF
       { cmd: 'nmap -p- -Pn {TARGET} -v --min-rate 1000 --max-rtt-timeout 1000ms --max-retries 5 -oN nmap_ports.txt', category: 'nmap' },
       { cmd: 'nmap -Pn {TARGET} -sV -sC -v -oN nmap_sVsC.txt', category: 'nmap' },
       { cmd: 'nmap -T4 -Pn {TARGET} -v --script vuln -oN nmap_vuln.txt ', category: 'nmap' },
-      { cmd: 'nmap -T4 -Pn -sV -sC -sT  ', category: 'nmap' },
-      { cmd: 'nmap -sU -p 53 --open {TARGET}/24  ', category: 'nmap' },
+      { cmd: 'nmap -T4 -Pn -sV -sC -sT -A -v -vv ', category: 'nmap' },
       { cmd: `sudo chattr -i /etc/resolv.conf`, category: 'nmap' },
       { cmd: `sudo nano /etc/resolv.conf`, category: 'nmap' },
       { cmd: `nameserver {TARGET}`, category: 'nmap' },
@@ -190,6 +192,12 @@ EOF
       { cmd: `dig axfr @{TARGET} 2.5.10.in-addr.arpa `, category: 'nmap' },
       { cmd: `dig axfr @{TARGET} {DOMAIN}`, category: 'nmap' },
       { cmd: `dns {DOMAIN} -n {TARGET}`, category: 'nmap' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/scannerv2 && sudo mv scannerv2 /usr/bin/scanner && sudo chmod +x /usr/bin/scanner`, category: 'nmap' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/check && sudo mv check /usr/bin/checkport && sudo chmod +x /usr/bin/checkport`, category: 'nmap' },
+      { cmd: `wget https://github.com/boboaung1337/fixtime/raw/refs/heads/main/fixtime && sudo mv fixtime /usr/bin/fixtime && sudo chmod +x /usr/bin/fixtime`, category: 'nmap' },
+      { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/dns && sudo mv dns /usr/bin/dns && sudo chmod +x /usr/bin/dns`, category: 'nmap' },
+
+
 
 
 
@@ -477,10 +485,40 @@ EOF
       { cmd: `bloodyad -d {DOMAIN} --host dc01.{DOMAIN} -i {TARGET} -u {USER} -p '{PASS}' get bloodhound`, category: 'bloodhound' },
       { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --zip`, category: 'bloodhound' },
       { cmd: `rusthound-ce -u {USER} -p '{PASS}' --domain {DOMAIN} -i {TARGET} --ldaps --zip`, category: 'bloodhound' },
-      { cmd: `https://github.com/SpecterOps/SharpHound/`, category: 'bloodhound' },
+      { cmd: `https://github.com/SpecterOps/SharpHound/releases/`, category: 'bloodhound' },
       { cmd: `.\\SharpHound.exe -c All`, category: 'bloodhound' },
       { cmd: `cargo install ghosthound`, category: 'bloodhound' },
       { cmd: `ghosthound -d {DOMAIN} --dc-ip {TARGET} -u {USER} -p {PASS} -o tombstones.json`, category: 'bloodhound' },
+      { cmd: `# with kerberos ticket`, category: 'bloodhound' },
+      { cmd: `sudo nxc smb {TARGET} --generate-hosts-file /etc/hosts --append`, category: 'bloodhound' },
+      { cmd: `sudo nxc smb {TARGET} --generate-krb5-file /etc/krb5.conf --append`, category: 'bloodhound' },
+      { cmd: `echo '{PASS}' | kinit {USER}@{DOMAIN}`, category: 'bloodhound' },
+      { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --generate-tgt cache`, category: 'bloodhound' },
+      { cmd: `export KRB5CCNAME=cache.ccache`, category: 'bloodhound' },
+      { cmd: `bloodhound-python -d {DOMAIN} -u {USER} -k -no-pass -c All --zip -ns {TARGET}`, category: 'bloodhound' },
+      { cmd: `bloodyad -d {DOMAIN} --host dc01.{DOMAIN} -i {TARGET} -k get bloodhound`, category: 'bloodhound' },
+      { cmd: `# Bloodhound-Cypher-Cheatsheet`, category: 'bloodhound' },
+      { cmd: `https://queries.specterops.io/`, category: 'bloodhound' },
+      { cmd: `https://gist.github.com/jeffmcjunkin/7b4a67bb7dd0cfbfbd83768f3aa6eb12`, category: 'bloodhound' },
+      { cmd: `https://hausec.com/2019/09/09/bloodhound-cypher-cheatsheet/`, category: 'bloodhound' },
+      { cmd: ``, category: 'bloodhound' },
+      { cmd: `# BloodHound-Legacy install`, category: 'bloodhound' },
+      { cmd: `wget https://github.com/boboaung1337/kali/raw/refs/heads/main/install_bloodhound.sh && chmod +x install_bloodhound.sh &&  ./install_bloodhound.sh && rm install_bloodhound.sh`, category: 'bloodhound' },
+      { cmd: ``, category: 'bloodhound' },
+      { cmd: `# BloodHound-Community-Edition install`, category: 'bloodhound' },
+      { cmd: `https://www.kali.org/tools/bloodhound/`, category: 'bloodhound' },
+      { cmd: `sudo apt update && sudo apt install -y bloodhound`, category: 'bloodhound' },
+      { cmd: `sudo bash -c 'echo -e "#!/bin/env sh\nneo4j start\nsleep 5\nkali-service-start bloodhound\necho \"    http://127.0.0.1:8080/ui/login\"" > /usr/bin/bloodhound-start && chmod +x /usr/bin/bloodhound-start'`, category: 'bloodhound' },
+      { cmd: `sudo bloodhound-start`, category: 'bloodhound' },
+      { cmd: `sudo bloodhound-stop`, category: 'bloodhound' },
+      { cmd: ``, category: 'bloodhound' },
+      { cmd: `# RustHound-CE installing`, category: 'bloodhound' },
+      { cmd: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`, category: 'bloodhound' },
+      { cmd: `cargo install rusthound-ce `, category: 'bloodhound' },
+      { cmd: `export PATH="$HOME/.cargo/bin:$PATH"`, category: 'bloodhound' },
+      { cmd: `source ~/.zshrc`, category: 'bloodhound' },
+      { cmd: `echo 'source "$HOME/.cargo/env"' >> ~/.zshrc`, category: 'bloodhound' },
+
 
 
 
@@ -595,9 +633,9 @@ EOF
       { cmd: `# Descriptions (often contain passwords)`, category: 'ldapsearch' },
       { cmd: `ldapsearch -x -H ldap://{TARGET} -b "dc=domain,dc=local" "(description=*)" sAMAccountName description info comment`, category: 'ldapsearch' },
       { cmd: `# Authenticated`, category: 'ldapsearch' },
-      { cmd: `ldapsearch -x -H ldap://{TARGET} -D "{USER}@{DOMAIN}" -w 'pass' -b "dc=domain,dc=local" "(objectClass=*)"`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -D "{USER}@{DOMAIN}" -w '{PASS}' -b "dc=domain,dc=local" "(objectClass=*)"`, category: 'ldapsearch' },
       { cmd: `# LAPS passwords`, category: 'ldapsearch' },
-      { cmd: `ldapsearch -x -H ldap://{TARGET} -D "{USER}@{DOMAIN}" -w 'pass' -b "dc=domain,dc=local" "(ms-MCS-AdmPwd=*)" ms-MCS-AdmPwd`, category: 'ldapsearch' },
+      { cmd: `ldapsearch -x -H ldap://{TARGET} -D "{USER}@{DOMAIN}" -w '{PASS}' -b "dc=domain,dc=local" "(ms-MCS-AdmPwd=*)" ms-MCS-AdmPwd`, category: 'ldapsearch' },
       { cmd: `https://www.hackingarticles.in/active-directory-enumeration-ldeep/`, category: 'ldapsearch' },
       { cmd: `https://www.thehacker.recipes/ad/recon/ldap`, category: 'ldapsearch' },
       { cmd: `ldapsearch -x -H 'ldap://{TARGET}' -D 'SVC_TGS' -w 'GPPstillStandingStrong2k18' -b "dc=active,dc=htb" -s sub "(&(objectCategory=person)(objectClass=user)(!(useraccountcontrol:1.2.840.113556.1.4.803:=2)))" samaccountname | grep sAMAccountName`, category: 'ldapsearch' },
@@ -609,6 +647,7 @@ EOF
       { cmd: `ldapdomaindump -u '{DOMAIN}\\\\{USER}' -p '{PASS}' {TARGET}`, category: 'ldapsearch' },
       { cmd: `uv tool install git+https://github.com/dirkjanm/adidnsdump.git`, category: 'ldapsearch' },
       { cmd: `adidnsdump -u {DOMAIN}\\\\{USER} ldap://{PASS} -r`, category: 'ldapsearch' },
+      { cmd: `wget https://github.com/boboaung1337/again/raw/refs/heads/main/windapsearch.py && sudo mv windapsearch.py /usr/local/bin/ && sudo chmod +x /usr/local/bin/windapsearch.py`, category: 'ldapsearch' },
 
 
 
