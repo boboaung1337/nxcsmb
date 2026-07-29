@@ -608,6 +608,8 @@ EOF
       // ===== userenum MODULE =====
       { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --users-export users.txt`, category: 'userenum' },
       { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --users-export users.txt -k`, category: 'userenum' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --users-export users.txt`, category: 'userenum' },
+      { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --users-export users.txt -k`, category: 'userenum' },
       { cmd: `nxc smb {TARGET} -u guest -p '' --rid-brute | grep -i 'sidtypeuser' | awk '{print $6}' | cut -d '\\' -f2 | tee users.txt`, category: 'userenum'},
       { cmd: `lookupsid.py -no-pass 'guest@{DOMAIN}' 8000 | grep SidTypeUser | cut -d' ' -f2 | cut -d '\\' -f2 | tee users.txt`, category: 'userenum' },
       { cmd: `GetADUsers.py -all {DOMAIN}/{USER}:''{PASS}'' -dc-ip {TARGET}`, category: 'userenum' },
