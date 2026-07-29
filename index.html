@@ -477,6 +477,8 @@ EOF
       { cmd: `use share_name`, category: 'smbclient', header: true },
       { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' --shares --spider IT --regex .`, category: 'smbclient' },
       { cmd: `nxc smb {TARGET} -u {USER} -p '{PASS}' -M spider_plus -o DOWNLOAD_FLAG=True OUTPUT_FOLDER=.`, category: 'smbclient' },
+      { cmd: `nxc smb {TARGET} -u guest -p '' -M spider_plus -o DOWNLOAD_FLAG=True OUTPUT_FOLDER=.`, category: 'smbclient' },
+      { cmd: `cat {TARGET}.json | jq '.Users | to_entries[] | .key' -r`, category: 'smbclient' },
 
 
 
