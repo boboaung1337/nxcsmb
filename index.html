@@ -341,7 +341,7 @@ EOF
       { cmd: `netstat -ano | findstr /i listening`, category: 'windows_priv' },
       { cmd: `--------------------manual finding--------------------`, category: 'windows_priv' },
       { cmd: `paste -sd, users.txt | sed 's/[^,]*/"&"/g'`, category: 'windows_priv' },
-      { cmd: `Get-ChildItem -Path C:\\ -Recurse -Force -Include *.config,*.pdf,*.xls,*.xlsx,*.doc,*.docx,*.ini,*.xml,*.bak,*.txt,*.ps1,*.log,*.json,*.yml,*.yaml,*.env,*.cs,*.vb,*.vbs,*.key,*.pem,*.crt,*.rdp,*.kdbx -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notmatch '(C:\\\\Windows)' } | Select-String -Pattern "pwd=", "password=", "username=", "user=", "pass="`, category: 'windows_priv' },
+      { cmd: `Get-ChildItem -Path C:\\ -Recurse -Force -Include *.keystore,*.config,*.pdf,*.xls,*.xlsx,*.doc,*.docx,*.ini,*.xml,*.bak,*.txt,*.ps1,*.log,*.json,*.yml,*.yaml,*.env,*.cs,*.vb,*.vbs,*.key,*.pem,*.crt,*.rdp,*.kdbx -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notmatch '(C:\\\\Windows)' } | Select-String -Pattern "pwd=", "password=", "username=", "user=", "pass="`, category: 'windows_priv' },
 
 
 
