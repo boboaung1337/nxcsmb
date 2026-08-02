@@ -335,6 +335,7 @@ EOF
       { cmd: `ls -force`, category: 'windows_priv' },
       { cmd: `tree /F`, category: 'windows_priv' },
       { cmd: `cd 'C:\\$Recycle.Bin'`, category: 'windows_priv' },
+      { cmd: `(Get-PSReadlineOption).HistorySavePath`, category: 'windows_priv' },
       { cmd: `powershell.exe -c type $env:APPDATA\\Microsoft\\Windows\\PowerShell\\PSReadLine\\ConsoleHost_history.txt`, category: 'windows_priv' },
       { cmd: `cmdkey /list`, category: 'windows_priv' },
       { cmd: `netstat -ano | findstr /i listening`, category: 'windows_priv' },
