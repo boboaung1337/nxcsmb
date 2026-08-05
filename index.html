@@ -885,7 +885,7 @@ setup() { nxc smb "$1" --generate-hosts-file /tmp/h.tmp && sudo tee -a /etc/host
       { 
       cmd: `
 
-cleanup() { sudo tee /etc/hosts > /dev/null <<< "127.0.0.1  localhost"$'\n'"127.0.1.1  kali"$'\n'"::1    localhost ip6-localhost ip6-loopback"$'\n'"ff02::1    ip6-allnodes"$'\n'"ff02::2    ip6-allrouters"; sudo rm -f /etc/krb5.conf; rm -f /tmp/h.tmp /tmp/k.tmp 2>/dev/null; echo "✅ Cleanup complete!"; }
+cleanup() { sudo tee /etc/hosts > /dev/null <<< "127.0.0.1  localhost"$'\\n'"127.0.1.1  kali"$'\\n'"::1    localhost ip6-localhost ip6-loopback"$'\\n'"ff02::1    ip6-allnodes"$'\\n'"ff02::2    ip6-allrouters"; sudo rm -f /etc/krb5.conf; rm -f /tmp/h.tmp /tmp/k.tmp 2>/dev/null; echo "✅ Cleanup complete!"; }
 `,
   category: 'kali' 
 },
