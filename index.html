@@ -529,6 +529,7 @@ EOF
       { cmd: `# BloodHound-Community-Edition install`, category: 'bloodhound' },
       { cmd: `https://www.kali.org/tools/bloodhound/`, category: 'bloodhound' },
       { cmd: `sudo apt update && sudo apt install -y bloodhound`, category: 'bloodhound' },
+      { cmd: `sudo bloodhound-setup`, category: 'bloodhound' },
       { cmd: `sudo bash -c 'echo -e "#!/bin/env sh\nneo4j start\nsleep 10\nkali-service-start bloodhound\necho \"    http://127.0.0.1:8080/ui/login\"" > /usr/bin/bloodhound-start && chmod +x /usr/bin/bloodhound-start'`, category: 'bloodhound' },
       { cmd: `sudo bloodhound-start`, category: 'bloodhound' },
       { cmd: `sudo bloodhound-stop`, category: 'bloodhound' },
