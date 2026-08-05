@@ -869,7 +869,13 @@ EOF
       { cmd: `curl http://localhost:8000`, category: 'chisel' },
 
 
-      // ===== chisel MODULE =====
+      // ===== kali MODULE =====
+      { cmd: `# tilix & sublimetext`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
+      { cmd: `sudo apt update && sudo apt install -y libldap2-dev libsasl2-dev libssl-dev bloodyad certipy-ad`, category: 'kali' },
+      { cmd: `sudo apt update && echo "deb http://deb.debian.org/debian unstable main" | sudo tee /etc/apt/sources.list.d/debian-unstable.list && sudo apt update && sudo apt install tilix -y && sudo rm -rf /etc/apt/sources.list.d/debian-unstable.list && sudo apt update`, category: 'kali' },
+      { cmd: `wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo tee /etc/apt/keyrings/sublimehq-pub.asc > /dev/null && echo -e 'Types: deb\\nURIs: https://download.sublimetext.com/\\nSuites: apt/stable/\\nSigned-By: /etc/apt/keyrings/sublimehq-pub.asc' | sudo tee /etc/apt/sources.list.d/sublime-text.sources && sudo apt-get update && sudo apt-get install sublime-text`, category: 'kali' },
+      { cmd: `subl .zshrc`, category: 'kali' },
       { 
       cmd: `
 alias venv="python3 -m venv venv && source venv/bin/activate"
@@ -884,6 +890,12 @@ cleanup() { sudo tee /etc/hosts > /dev/null <<< "127.0.0.1  localhost"$'\\n'"127
 `,
   category: 'kali' 
 },
+      { cmd: ``, category: 'kali' },
+      { cmd: `# mounting`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
+      { cmd: `cat /etc/fstab`, category: 'kali' },
+      { cmd: `sudo bash -c 'echo -e "UUID=803216a4-b160-460c-af72-99de083cef30 /               ext4    errors=remount-ro 0       1\\nUUID=d3729d11-3c50-4dcc-82d5-5aa5a94d2dba none            swap    sw              0       0\\n/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     0       0\\nvmhgfs-fuse /mnt fuse defaults,allow_other 0 0" > /etc/fstab'`, category: 'kali' },
+
 
 
 
