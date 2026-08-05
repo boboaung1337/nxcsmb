@@ -869,6 +869,23 @@ EOF
       { cmd: `curl http://localhost:8000`, category: 'chisel' },
 
 
+      // ===== chisel MODULE =====
+      { 
+      cmd: `
+alias venv="python3 -m venv venv && source venv/bin/activate"
+
+alias rmvenv="deactivate && rm -rf venv"
+
+export PATH="$PATH:/home/kali/.local/share/gem/ruby/3.3.0/bin"
+
+setup() { nxc smb "$1" --generate-hosts-file /tmp/h.tmp && sudo tee -a /etc/hosts < /tmp/h.tmp && rm -f /tmp/h.tmp; nxc smb "$1" --generate-krb5-file /tmp/k.tmp && sudo mv /tmp/k.tmp /etc/krb5.conf && echo "✅ Done for $1"; }
+
+cleanup() { sudo tee /etc/hosts > /dev/null <<< "127.0.0.1  localhost"$'\n'"127.0.1.1  kali"$'\n'"::1    localhost ip6-localhost ip6-loopback"$'\n'"ff02::1    ip6-allnodes"$'\n'"ff02::2    ip6-allrouters"; sudo rm -f /etc/krb5.conf; rm -f /tmp/h.tmp /tmp/k.tmp 2>/dev/null; echo "✅ Cleanup complete!"; }
+`,
+  category: 'kali' 
+},
+
+
 
 
       // ===== rdp MODULE =====
