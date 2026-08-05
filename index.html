@@ -895,10 +895,25 @@ cleanup() { sudo tee /etc/hosts > /dev/null <<< "127.0.0.1  localhost"$'\\n'"127
       { cmd: ``, category: 'kali' },
       { cmd: `cat /etc/fstab`, category: 'kali' },
       { cmd: `sudo bash -c 'echo -e "UUID=803216a4-b160-460c-af72-99de083cef30 /               ext4    errors=remount-ro 0       1\\nUUID=d3729d11-3c50-4dcc-82d5-5aa5a94d2dba none            swap    sw              0       0\\n/dev/sr0        /media/cdrom0   udf,iso9660 user,noauto     0       0\\nvmhgfs-fuse /mnt fuse defaults,allow_other 0 0" > /etc/fstab'`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
       { cmd: `---------------------exe---------------------------`, category: 'kali' },
       { cmd: ``, category: 'kali' },
       { cmd: `wget https://github.com/boboaung1337/exe/raw/refs/heads/main/scannerv2 && sudo mv scannerv2 /usr/local/bin/scanner && sudo chmod +x /usr/local/bin/scanner && wget https://github.com/boboaung1337/exe/raw/refs/heads/main/check && sudo mv check /usr/local/bin/checkport && sudo chmod +x /usr/local/bin/checkport && wget https://github.com/boboaung1337/fixtime/raw/refs/heads/main/fixtime && sudo mv fixtime /usr/local/bin/fixtime && sudo chmod +x /usr/local/bin/fixtime && wget https://github.com/boboaung1337/exe/raw/refs/heads/main/dns && sudo mv dns /usr/local/bin/dns && sudo chmod +x /usr/local/bin/dns && wget https://github.com/boboaung1337/again/raw/refs/heads/main/windapsearch.py && sudo mv windapsearch.py /usr/local/bin/ && sudo chmod +x /usr/local/bin/windapsearch.py && wget https://github.com/boboaung1337/again/raw/refs/heads/main/targetedKerberoast.py && sudo mv targetedKerberoast.py /usr/local/bin/ && sudo chmod +x /usr/local/bin/targetedKerberoast.py && wget https://github.com/boboaung1337/again/raw/refs/heads/main/smbpasswd.py && sudo mv smbpasswd.py /usr/local/bin && sudo chmod +x /usr/local/bin/smbpasswd.py && wget https://github.com/boboaung1337/again/releases/download/v0/kerbrute && sudo mv kerbrute /usr/local/bin/kerbrute && sudo chmod +x /usr/local/bin/kerbrute
 `, category: 'kali' },
+      { cmd: ``, category: 'kali' },
+      { cmd: `# uv install`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
+      { cmd: `sudo sh -c "curl -LsSf https://astral.sh/uv/install.sh | UV_INSTALL_DIR=/usr/local/bin sh"`, category: 'kali' },
+      { cmd: `sudo sh -c 'echo "export PATH=\\"/root/.local/bin:\\$PATH\\"" >> /root/.zshrc'`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
+      { cmd: `sudo visudo`, category: 'kali' },
+      { cmd: `Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/.local/bin"`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
+      { cmd: `uv tool install pywhisker && uv tool install impacket && uv tool install snaffler-ng && sudo uv tool install pywhisker && sudo uv tool install impacket && sudo uv tool install snaffler-ng && uv tool upgrade --all && sudo uv tool upgrade --all`, category: 'kali' },
+      { cmd: `uv tool install git+https://github.com/Fabrizzio53/NetExec.git`, category: 'kali' },
+      { cmd: `uv tool install droopescan --python 3.11`, category: 'kali' },
+      { cmd: `gem install haiti-hash haiti`, category: 'kali' },
+      { cmd: ``, category: 'kali' },
 
 
 
